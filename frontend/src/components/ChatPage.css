@@ -70,3 +70,18 @@
 .input-container button:hover {
     background-color: #FAF9EE;
 }
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    margin-left: auto;
+    padding: 10px;
+}
+
+.logout-button {
+    background: none;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 10px
+}

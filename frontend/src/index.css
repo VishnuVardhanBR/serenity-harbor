@@ -12,3 +12,24 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+button {
+  font-weight: bold;
+  background-color: #90B4B8;
+  color: black;
+  transition: all 0.3s ease-in-out;
+}
+
+button:hover {
+  background-color: #367A8C;
+  transform: scale(1.02);
+}
+
+select {
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+select:invalid {
+  color: grey;
+}

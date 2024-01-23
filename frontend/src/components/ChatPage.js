@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './ChatPage.css';
+import { useNavigate } from "react-router-dom";
 
 const ChatPage = () => {
     const [messages, setMessages] = useState([]);
     const [userInput, setUserInput] = useState('');
     const inputRef = useRef(null);
+    const navigate = useNavigate();
         
     useEffect(() => {
         inputRef.current.focus();
@@ -19,6 +21,12 @@ const ChatPage = () => {
         };
         clearHistory();
     }, []);
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        navigate("/login");
+        window.location.reload();
+    };
 
     const sendMessageToBackend = async (message) => {
         try {
@@ -51,6 +59,11 @@ const ChatPage = () => {
 
     return (
         <div className="chat-container">
+            <div className="header">
+                <button onClick={handleLogout} className="logout-button">
+                    Logout
+                </button>
+            </div>
             <div className="message-container">
                 {messages.length === 0 ? (
                     <h1 className="placeholder-text">Serenity Harbor</h1>
