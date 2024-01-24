@@ -18,13 +18,17 @@ def generate_token(username):
     return token
 
 @app.route('/fetch_response', methods=['POST'])
-def fetch_response():
+async def fetch_response():
     try:
         user_prompt = request.json.get('userprompt')
-        response = fetch_openai_response(user_prompt)
+        #username = jwt.decode(request.json.get('token'), os.getenv("JWT_SECRET_KEY"), algorithms=['HS256'])['username']
+        #username = request.json.get('username')
+        username = 'Vishnu'
+        response = await fetch_openai_response(user_prompt,username)
         return jsonify({'response': response})
 
     except Exception as e:
+        print(e)
         return jsonify({'error': str(e)}), 500
 
 @app.route('/clear_history', methods=['POST'])
