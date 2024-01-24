@@ -1,6 +1,9 @@
 import pymongo
 from passlib.hash import pbkdf2_sha256 
 import os
+import jwt
+from flask import jsonify
+from datetime import datetime
 
 mongo_uri = os.getenv("MONGO_URI")
 database_name = "serenityharbor"
@@ -36,3 +39,31 @@ def authenticate_user(username, password):
         return True
     else:
         return False
+
+def save_current_chat(token, chat_history):
+    try:
+        db = get_db_connection()
+
+        username = jwt.decode(token, os.getenv("JWT_SECRET_KEY"), algorithms=["HS256"])['username']
+
+        chat_history = [message for message in chat_history if message['role'] != 'system']
+
+        if len(chat_history) == 0:
+            return jsonify({'error': 'Chat history is empty'}), 400
+
+        last_chat = db.user_chats.find_one(sort=[('id', pymongo.DESCENDING)])
+        last_chat_id = last_chat['id'] + 1 if last_chat else 1
+
+        new_chat = {
+            'id': last_chat_id,
+            'username': username,
+            'timestamp': datetime.utcnow(),
+            'messages': chat_history
+        }
+
+        db.user_chats.insert_one(new_chat)
+
+        return "Success saving chat"
+
+    except Exception as e:
+        return e

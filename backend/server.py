@@ -3,7 +3,7 @@ from flask_cors import CORS
 import jwt, os
 from openaiapi import fetch_openai_response
 from openaiapi import chat_history, SYSTEM_PROMPT
-from dbutils import register_user, authenticate_user
+from dbutils import register_user, authenticate_user, save_current_chat
 from datetime import datetime, timedelta
 
 app = Flask(__name__)
@@ -26,12 +26,19 @@ def fetch_response():
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-    
-@app.route('/clear_history', methods=['GET'])
+
+@app.route('/clear_history', methods=['POST'])
 def reset_chat():
-    chat_history.clear()
-    chat_history.append({"role": "system", "content": SYSTEM_PROMPT})
-    return {"message": "Chat reset was successful"}
+    try:
+        token = request.json.get('token')
+        if len(chat_history)>1:
+            print(save_current_chat(token, chat_history))
+        chat_history.clear()
+        chat_history.append({"role": "system", "content": SYSTEM_PROMPT})
+        return {"message": "Chat save & reset was successful"}
+    except Exception as e:
+        print(e)
+        return jsonify({'error': str(e)}), 400
 
 @app.route('/register', methods=['POST'])
 def register():
