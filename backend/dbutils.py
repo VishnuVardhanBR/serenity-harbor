@@ -10,7 +10,7 @@ def get_db_connection():
     db = client[database_name]
     return db
 
-def register_user(username, password, sex, age, nationality, usertype="consumer"):
+def register_user(username, password, sex, age, nationality, usertype):
     db = get_db_connection()
 
     if db.users.find_one({'username': username}):
