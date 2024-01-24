@@ -33,3 +33,12 @@ select {
 select:invalid {
   color: grey;
 }
+
+input:focus, select:focus {
+  outline: none;     
+}
+
+input, select {
+  border: 2px solid #90B4B8;
+  border-radius: 5px;
+}
