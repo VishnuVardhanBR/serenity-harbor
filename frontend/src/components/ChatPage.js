@@ -13,7 +13,11 @@ const ChatPage = () => {
         const clearHistory = async () => {
             try {
                 await fetch('http://localhost:8080/clear_history', {
-                    method: 'GET',
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ token: localStorage.getItem('token') }),
                 });
             } catch (error) {
                 console.error('Error:', error);

@@ -24,7 +24,6 @@ def fetch_openai_response(user_prompt: str):
             messages=chat_history
         )
         reply = openai_response.choices[0].message.content
-        print("Assistant: "+reply)
         chat_history.append({"role": "assistant", "content": reply})
         return reply
     except Exception as e:
