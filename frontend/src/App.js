@@ -6,7 +6,7 @@ import RegisterPage from "./components/RegisterPage";
 import { Routes, Route, Navigate } from 'react-router-dom';
 
 export default function App() {
-    const isUserLoggedIn = !!localStorage.getItem('token');
+    const isUserLoggedIn = true ;//!!localStorage.getItem('token');
     return (
         <div>
             <Routes>
