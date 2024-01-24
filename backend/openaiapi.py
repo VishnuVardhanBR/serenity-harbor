@@ -2,6 +2,9 @@ from openai import OpenAI
 from dotenv import load_dotenv
 load_dotenv()
 import os
+#import guardrails as gd
+#from guardrails.validators import ToxicLanguage
+#from rich import print
 
 client = OpenAI()
 
