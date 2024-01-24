@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import jwt, os
 from openaiapi import fetch_openai_response
-from openaiapi import chat_history, SYSTEM_PROMPT
+from openaiapi import chat_history
 from dbutils import register_user, authenticate_user, save_current_chat
 from datetime import datetime, timedelta
 
@@ -21,10 +21,8 @@ def generate_token(username):
 async def fetch_response():
     try:
         user_prompt = request.json.get('userprompt')
-        #username = jwt.decode(request.json.get('token'), os.getenv("JWT_SECRET_KEY"), algorithms=['HS256'])['username']
-        #username = request.json.get('username')
-        username = 'Vishnu'
-        response = await fetch_openai_response(user_prompt,username)
+        username = jwt.decode(request.json.get('token'), os.getenv("JWT_SECRET_KEY"), algorithms=['HS256'])['username']
+        response = await fetch_openai_response(user_prompt, username)
         return jsonify({'response': response})
 
     except Exception as e:
@@ -38,7 +36,6 @@ def reset_chat():
         if len(chat_history)>1:
             print(save_current_chat(token, chat_history))
         chat_history.clear()
-        chat_history.append({"role": "system", "content": SYSTEM_PROMPT})
         return {"message": "Chat save & reset was successful"}
     except Exception as e:
         print(e)
