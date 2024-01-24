@@ -42,8 +42,9 @@ def register():
         sex = data.get('sex')
         age = data.get('age')
         nationality = data.get('nationality')
+        usertype = data.get('usertype')
         #need to add usertype
-        register_user(username, password, sex, age, nationality)
+        register_user(username, password, sex, age, nationality, usertype)
 
         token = generate_token(username)
         return jsonify({'status': 'User registered successfully', 'token': token})

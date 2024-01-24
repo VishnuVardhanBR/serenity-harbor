@@ -42,3 +42,24 @@
 .login-link a:hover {
     text-decoration: underline;
 }
+
+.tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.tab {
+    padding: 10px 20px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    margin: 0 5px;
+    border-radius: 5px;
+}
+
+.tab.active {
+    background-color: #367A8C;
+    color: white;
+    border-color: #367A8C;
+    border-radius: 5px;
+}
