@@ -85,3 +85,18 @@ def save_current_chat_summary(username, messages, chat_id):
     except Exception as e:
         print(e)
         return jsonify({'error': str(e)}), 400
+
+
+
+def get_user_details(username):
+    try:
+        db = get_db_connection()
+        user_details = db.users.find_one({'username': username}, {'_id': 0, 'password': 0})
+
+        if user_details:
+            return jsonify({'user_details': user_details})
+        else:
+            return jsonify({'error': 'User not found'}), 404
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500

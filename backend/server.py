@@ -3,7 +3,7 @@ from flask_cors import CORS
 import jwt, os
 from openaiapi import fetch_openai_response
 from openaiapi import chat_history
-from dbutils import register_user, authenticate_user, save_current_chat
+from dbutils import register_user, authenticate_user, save_current_chat, get_user_details
 from datetime import datetime, timedelta
 
 app = Flask(__name__)
@@ -17,11 +17,41 @@ def generate_token(username):
     token = jwt.encode(payload, os.getenv("JWT_SECRET_KEY"), algorithm='HS256')
     return token
 
+def decode_token(token):
+    return jwt.decode(token, os.getenv("JWT_SECRET_KEY"), algorithms=['HS256'])['username']
+
+def verify_jwt_token(token):
+    try:
+        if not token:
+            return jsonify({"error": "No token provided"}), 400
+
+        jwt.decode(token, os.getenv("JWT_SECRET_KEY"), algorithms=["HS256"])
+        return jsonify({"success": "Token is valid"}), 200
+
+    except jwt.ExpiredSignatureError:
+        return jsonify({"error": "Token has expired"}), 401
+
+    except jwt.InvalidTokenError:
+        return jsonify({"error": "Invalid token"}), 401
+
+@app.route('/verify_token', methods=['POST'])
+def verify_jwt_token_helper():
+    token = request.json.get('token')
+    verify_status =  verify_jwt_token(token)
+    username = decode_token(request.json.get('token'))
+    user_details_response = get_user_details(username)
+    if 'error' in user_details_response.json or 'error' in verify_status:
+        return jsonify({"error": "Invalid token"}), 401
+    return jsonify({
+        "status": "Token verification successful",
+        "usertype": user_details_response.json['user_details']['usertype']
+    })
+
 @app.route('/fetch_response', methods=['POST'])
 async def fetch_response():
     try:
+        username = decode_token(request.json.get('token'))
         user_prompt = request.json.get('userprompt')
-        username = jwt.decode(request.json.get('token'), os.getenv("JWT_SECRET_KEY"), algorithms=['HS256'])['username']
         response = await fetch_openai_response(user_prompt, username)
         return jsonify({'response': response})
 
