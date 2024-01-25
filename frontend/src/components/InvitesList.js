@@ -4,7 +4,7 @@ import './InvitesList.css';
 const InvitesList = ({ token, onClose }) => {
     const [invites, setInvites] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-
+    const [processingInvite, setProcessingInvite] = useState(null);
     useEffect(() => {
         const fetchInvites = async () => {
             setIsLoading(true);
@@ -34,6 +34,7 @@ const InvitesList = ({ token, onClose }) => {
     }, [token]);
 
     const handleInviteResponse = async (username, accepted) => {
+        setProcessingInvite(username);
         try {
             const response = await fetch('http://localhost:8080/manage_invite', {
                 method: 'POST',
@@ -48,6 +49,9 @@ const InvitesList = ({ token, onClose }) => {
             }
         } catch (error) {
             console.error('Error:', error);
+        }
+        finally{
+            setProcessingInvite(null);
         }
     };
 
@@ -67,8 +71,20 @@ const InvitesList = ({ token, onClose }) => {
                     <div key={index} className="invite">
                         <span>{username}</span>
                         <div>
-                            <button onClick={() => handleInviteResponse(username, true)} className="invite-button">Accept</button>
-                            <button onClick={() => handleInviteResponse(username, false)} className="invite-button">Ignore</button>
+                            <button 
+                                onClick={() => handleInviteResponse(username, true)} 
+                                className={`invite-button ${processingInvite === username ? 'loading' : ''}`}
+                                disabled={processingInvite === username}
+                            >
+                                Accept
+                            </button>
+                            <button 
+                                onClick={() => handleInviteResponse(username, false)} 
+                                className={`invite-button ${processingInvite === username ? 'loading' : ''}`}
+                                disabled={processingInvite === username}
+                            >
+                                Ignore
+                            </button>
                         </div>
                     </div>
                 ))

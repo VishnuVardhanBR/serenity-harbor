@@ -86,8 +86,26 @@ def save_current_chat_summary(username, messages, chat_id):
         print(e)
         return jsonify({'error': str(e)}), 400
 
+def fetch_chat_summaries(consumer_username):
+    try:
+        db = get_db_connection()
+        summaries = db.chat_summaries.find({'username': consumer_username}, {'_id': 0, 'id': 1, 'summary': 1})
+        chat_summaries_dict = {}
+        for summary in summaries:
+            chat_id = summary.get('id')
+            chat_timestamp = db.user_chats.find_one({'id': chat_id}, {'_id': 0, 'timestamp': 1})
 
+            chat_summaries_dict[chat_id] = {
+                'summary': summary.get('summary'),
+                'timestamp': chat_timestamp.get('timestamp') if chat_timestamp else None
+            }
 
+        return jsonify({'summaries': chat_summaries_dict}), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+    
 def get_user_details(username):
     try:
         db = get_db_connection()
@@ -131,6 +149,47 @@ def fetch_invites(username):
         invites = db.invites.find({'consumer_username': username, 'accepted': None})
         admin_usernames = [invite['admin_username'] for invite in invites]
         return jsonify({'admin_usernames': admin_usernames}), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+def manage_invite(consumer_username, admin_username, accepted):
+    try:
+        db = get_db_connection()
+
+        db.invites.update_one(
+            {'consumer_username': consumer_username, 'admin_username': admin_username},
+            {'$set': {'accepted': accepted}}
+        )
+
+        if accepted:
+            insert_admin_consumer_relation(admin_username, consumer_username)
+
+        return jsonify({'status': 'Invite managed successfully'}), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    
+def insert_admin_consumer_relation(admin_username, consumer_username):
+    try:
+        db = get_db_connection()
+
+        db.admin_to_consumer.insert_one({
+            'admin_username': admin_username,
+            'consumer_username': consumer_username
+        })
+
+        return jsonify({'status': 'Admin-to-consumer relation inserted successfully'}), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+def fetch_consumers_with_admin(admin_username):
+    try:
+        db = get_db_connection()
+        all_relations = db.admin_to_consumer.find({'admin_username': admin_username}, {'_id' : 0})
+        consumer_usernames = [relation['consumer_username'] for relation in all_relations]
+        return jsonify({'consumer_usernames': consumer_usernames}), 200
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500

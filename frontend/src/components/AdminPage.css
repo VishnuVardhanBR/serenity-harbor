@@ -42,3 +42,47 @@
     border-radius: 5px;
     z-index: 1000;
 }
+.chat-summaries {
+    margin-top: 20px;
+}
+
+.tabs {
+    display: flex;
+    overflow-x: auto;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 20px;
+}
+
+.tab {
+    padding: 10px 15px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-bottom: none;
+    margin-right: 10px;
+}
+
+.tab.active {
+    background-color: #007bff;
+    color: white;
+}
+
+.summaries-content {
+    padding: 10px;
+}
+
+.summary {
+    margin-bottom: 20px;
+    background-color: white;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+.summary-header {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.loading {
+    text-align: center;
+    padding: 20px;
+}

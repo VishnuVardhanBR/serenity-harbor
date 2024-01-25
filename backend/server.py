@@ -3,7 +3,7 @@ from flask_cors import CORS
 import jwt, os
 from openaiapi import fetch_openai_response
 from openaiapi import chat_history
-from dbutils import register_user, authenticate_user, save_current_chat, get_user_details, store_invite, fetch_invites
+from dbutils import register_user, authenticate_user, save_current_chat, get_user_details, store_invite, fetch_invites, manage_invite, fetch_chat_summaries, fetch_consumers_with_admin
 from datetime import datetime, timedelta
 
 app = Flask(__name__)
@@ -72,6 +72,25 @@ def reset_chat():
         print(e)
         return jsonify({'error': str(e)}), 400
 
+@app.route('/fetch_consumers_with_admin', methods=['POST'])
+def fetch_consumers_with_admin_from_db():
+    try:
+        token = request.json.get('token')
+        admin_username = decode_token(token)
+        return fetch_consumers_with_admin(admin_username)
+    except Exception as e:
+        print(e)
+        return jsonify({'error': str(e)}), 400
+
+@app.route('/fetch_summaries', methods=['POST'])
+def fetch_summaries_from_db():
+    try:
+        consumer_username = request.json.get('consumer_username')
+        return fetch_chat_summaries(consumer_username)
+    except Exception as e:
+        print(e)
+        return jsonify({'error': str(e)}), 400
+
 @app.route('/invite_user', methods=['POST'])
 def invite_user():
     try:
@@ -89,6 +108,18 @@ def fetch_invites_from_db():
         token = request.json.get('token')
         username = decode_token(token)
         return fetch_invites(username)
+    except Exception as e:
+        print(e)
+        return jsonify({'error': str(e)}), 400
+
+@app.route('/manage_invite', methods=['POST'])
+def manage_invite_in_db():
+    try:
+        token = request.json.get('token')
+        consumer_username = decode_token(token)
+        admin_username = request.json.get('username')
+        accepted = request.json.get('accepted')
+        return manage_invite(consumer_username, admin_username, accepted)
     except Exception as e:
         print(e)
         return jsonify({'error': str(e)}), 400
