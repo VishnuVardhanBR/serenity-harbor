@@ -4,6 +4,7 @@ import os
 import jwt
 from flask import jsonify
 from datetime import datetime
+from openaiapi import fetch_openai_response_admin
 
 mongo_uri = os.getenv("MONGO_URI")
 database_name = "serenityharbor"
@@ -27,7 +28,7 @@ def register_user(username, password, sex, age, nationality, usertype):
         'usertype': usertype,
         'sex': sex,
         'age': age,
-        'nationality': nationality
+        'nationality': nationality,
     })
 
 def authenticate_user(username, password):
@@ -62,8 +63,25 @@ def save_current_chat(token, chat_history):
         }
 
         db.user_chats.insert_one(new_chat)
-
-        return "Success saving chat"
+        save_current_chat_summary(username, chat_history, last_chat_id)
+        print ("Success saving chat")
 
     except Exception as e:
-        return e
+        print(e)
+        return jsonify({'error': str(e)}), 400
+
+
+def save_current_chat_summary(username, messages, chat_id):
+    try:
+        summary = fetch_openai_response_admin(username, messages)
+        db = get_db_connection()
+        chat_summary = {
+            'id' : chat_id,
+            'username' : username,
+            'summary' : summary
+        }
+        db.chat_summaries.insert_one(chat_summary)
+        print ("Success saving chat summary")
+    except Exception as e:
+        print(e)
+        return jsonify({'error': str(e)}), 400

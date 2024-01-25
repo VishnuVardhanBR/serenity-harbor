@@ -41,6 +41,7 @@ def reset_chat():
         print(e)
         return jsonify({'error': str(e)}), 400
 
+
 @app.route('/register', methods=['POST'])
 def register():
     try:
