@@ -117,7 +117,7 @@ def store_invite(consumer_username, admin_username):
         db.invites.insert_one({
             'consumer_username': consumer_username,
             'admin_username': admin_username,
-            'accepted': ""
+            'accepted': None
         })
 
         return jsonify({'status': 'Invite stored successfully'}), 200
@@ -128,7 +128,7 @@ def store_invite(consumer_username, admin_username):
 def fetch_invites(username):
     try:
         db = get_db_connection()
-        invites = db.invites.find({'consumer_username': username, 'accepted': ""})
+        invites = db.invites.find({'consumer_username': username, 'accepted': None})
         admin_usernames = [invite['admin_username'] for invite in invites]
         return jsonify({'admin_usernames': admin_usernames}), 200
 
