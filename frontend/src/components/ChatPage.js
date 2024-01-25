@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./ChatPage.css";
 import { useNavigate } from "react-router-dom";
-
+import InvitesList from "./InvitesList"
 const ChatPage = () => {
 	const [messages, setMessages] = useState([]);
 	const [userInput, setUserInput] = useState("");
+	const [showInvites, setShowInvites] = useState(false);
 	const inputRef = useRef(null);
 	const navigate = useNavigate();
+	const token = localStorage.getItem('token');
 
 	useEffect(() => {
 		inputRef.current.focus();
@@ -69,7 +71,12 @@ const ChatPage = () => {
 
 	return (
 		<div className="chat-container">
+			
 			<div className="header">
+			<div>
+				<button onClick={() => setShowInvites(!showInvites)} className="show-invites">Show Invites</button>
+					{showInvites && <InvitesList token={token} onClose={() => setShowInvites(false)} />}
+				</div>
 				<button onClick={handleLogout} className="logout-button">
 					Logout
 				</button>

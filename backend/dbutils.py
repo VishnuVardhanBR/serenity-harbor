@@ -100,3 +100,37 @@ def get_user_details(username):
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+
+def store_invite(consumer_username, admin_username):
+    try:
+        db = get_db_connection()
+        consumer_user = db.users.find_one({'username': consumer_username, 'usertype': {'$ne': 'admin'}})
+        if not consumer_user:
+            return jsonify({'error': 'Invalid username or user is an admin'}), 400
+
+        existing_invite = db.invites.find_one({'consumer_username': consumer_username, 'admin_username': admin_username})
+
+        if existing_invite:
+            return jsonify({'error': 'Invite already exists'}), 400
+
+        db.invites.insert_one({
+            'consumer_username': consumer_username,
+            'admin_username': admin_username,
+            'accepted': ""
+        })
+
+        return jsonify({'status': 'Invite stored successfully'}), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+def fetch_invites(username):
+    try:
+        db = get_db_connection()
+        invites = db.invites.find({'consumer_username': username, 'accepted': ""})
+        admin_usernames = [invite['admin_username'] for invite in invites]
+        return jsonify({'admin_usernames': admin_usernames}), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500

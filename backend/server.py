@@ -3,7 +3,7 @@ from flask_cors import CORS
 import jwt, os
 from openaiapi import fetch_openai_response
 from openaiapi import chat_history
-from dbutils import register_user, authenticate_user, save_current_chat, get_user_details
+from dbutils import register_user, authenticate_user, save_current_chat, get_user_details, store_invite, fetch_invites
 from datetime import datetime, timedelta
 
 app = Flask(__name__)
@@ -34,6 +34,7 @@ def verify_jwt_token(token):
     except jwt.InvalidTokenError:
         return jsonify({"error": "Invalid token"}), 401
 
+
 @app.route('/verify_token', methods=['POST'])
 def verify_jwt_token_helper():
     token = request.json.get('token')
@@ -45,7 +46,7 @@ def verify_jwt_token_helper():
     return jsonify({
         "status": "Token verification successful",
         "usertype": user_details_response.json['user_details']['usertype']
-    })
+    }), 200
 
 @app.route('/fetch_response', methods=['POST'])
 async def fetch_response():
@@ -71,6 +72,26 @@ def reset_chat():
         print(e)
         return jsonify({'error': str(e)}), 400
 
+@app.route('/invite_user', methods=['POST'])
+def invite_user():
+    try:
+        token = request.json.get('token')
+        admin_username = decode_token(token)
+        consumer_username = request.json.get('consumer_username')
+        return store_invite(consumer_username, admin_username)
+    except Exception as e:
+        print(e)
+        return jsonify({'error': str(e)}), 400
+
+@app.route('/fetch_invites', methods=['POST'])
+def fetch_invites_from_db():
+    try:
+        token = request.json.get('token')
+        username = decode_token(token)
+        return fetch_invites(username)
+    except Exception as e:
+        print(e)
+        return jsonify({'error': str(e)}), 400
 
 @app.route('/register', methods=['POST'])
 def register():

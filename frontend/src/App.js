@@ -29,7 +29,9 @@ export default function App() {
 
                 if (response.ok) {
                     setIsUserLoggedIn(true);
-                    setUserType(response.json()['usertype'])
+                    const responseData = await response.json();
+                    console.log(responseData)
+                    setUserType(responseData.usertype)
                 }
             } catch (error) {
                 console.error('Error verifying token:', error);

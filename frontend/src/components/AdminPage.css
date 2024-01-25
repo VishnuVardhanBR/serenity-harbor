@@ -1,0 +1,44 @@
+.admin-container {
+    padding: 20px;
+    background-color: #FAF9EE;
+    min-height: 100vh;
+}
+
+.invite-button {
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 20px;
+}
+
+.invite-box {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 20px;
+}
+
+.invite-box input {
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+.invite-box button {
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.popup-message {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #dc3545;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    z-index: 1000;
+}
