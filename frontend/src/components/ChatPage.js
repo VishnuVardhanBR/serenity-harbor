@@ -9,26 +9,26 @@ const ChatPage = () => {
 	const inputRef = useRef(null);
 	const navigate = useNavigate();
 	const token = localStorage.getItem('token');
-
+	const clearHistory = async () => {
+		try {
+			await fetch("http://localhost:8080/clear_history", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ token: localStorage.getItem("token") }),
+			});
+		} catch (error) {
+			console.error("Error:", error);
+		}
+	};
 	useEffect(() => {
 		inputRef.current.focus();
-		const clearHistory = async () => {
-			try {
-				await fetch("http://localhost:8080/clear_history", {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({ token: localStorage.getItem("token") }),
-				});
-			} catch (error) {
-				console.error("Error:", error);
-			}
-		};
 		clearHistory();
 	}, []);
 
-	const handleLogout = () => {
+	const handleLogout = async() => {
+		clearHistory();
 		localStorage.removeItem("token");
 		navigate("/login");
 		window.location.reload();

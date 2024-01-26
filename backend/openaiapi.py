@@ -1,7 +1,7 @@
+import os, json
 from openai import OpenAI
 from dotenv import load_dotenv
 load_dotenv()
-import os, json
 #import guardrails as gd
 #from guardrails.validators import ToxicLanguage
 #from rich import print
@@ -12,8 +12,13 @@ chat_history = []
 summary_chat_history = []
 
 def initOpenAI(username):
+    from dbutils import get_user_details
+    user_details = get_user_details(username)
+    user_sex = user_details.json['user_details']['sex']
+    user_age = user_details.json['user_details']['age']
+    user_nationality = user_details.json['user_details']['nationality']
     SYSTEM_PROMPT = f'''
-    You are a mental health counsellor. Try to help the patient with their problems and make them feel better. The patient's name who you're talking with is {username}. The following is a conversation with an AI assistant. The assistant is helpful, creative, clever, and very friendly. The assistant is a counsellor. If the prompt is in another language reply in that language.
+    You are a mental health counsellor. Try to help the patient with their problems and make them feel better. The patient's name who you're talking with is {username}. The following is a conversation with an AI assistant. The assistant is helpful, creative, clever, and very friendly. The assistant is a counsellor. If the prompt is in another language reply in that language. For context, the patient is of age {user_age} and their gender is {user_sex}, their nationality is {user_nationality}
     '''
     chat_history.append({"role": "system", "content": SYSTEM_PROMPT})
 

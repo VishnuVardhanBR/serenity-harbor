@@ -4,7 +4,6 @@ import os
 import jwt
 from flask import jsonify
 from datetime import datetime
-from openaiapi import fetch_openai_response_admin
 
 mongo_uri = os.getenv("MONGO_URI")
 database_name = "serenityharbor"
@@ -73,6 +72,7 @@ def save_current_chat(token, chat_history):
 
 def save_current_chat_summary(username, messages, chat_id):
     try:
+        from openaiapi import fetch_openai_response_admin
         summary = fetch_openai_response_admin(username, messages)
         db = get_db_connection()
         chat_summary = {
