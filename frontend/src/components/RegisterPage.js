@@ -54,7 +54,7 @@ const RegisterPage = () => {
 
 			const data = await response.json();
 			localStorage.setItem("token", data.token);
-			navigate("/chat");
+			navigate("/home");
 			window.location.reload();
 		} catch (error) {
 			console.error("Error:", error);
