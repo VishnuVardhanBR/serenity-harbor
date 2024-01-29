@@ -49,3 +49,12 @@ input, select {
   border: 2px solid #90B4B8;
   border-radius: 5px;
 }
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.main-container {
+  animation: fadeIn 0.5s ease-out; /* Apply fade-in animation */
+}

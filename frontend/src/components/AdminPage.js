@@ -94,7 +94,7 @@ const AdminPage = () => {
     };
 
     return (
-        <div className="admin-container">
+        <div className="admin-container main-container">
             <button className="invite-button" onClick={handleInviteButtonClick}>Invite User</button>
             
             {showInviteBox && (

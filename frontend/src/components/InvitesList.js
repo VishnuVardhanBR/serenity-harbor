@@ -56,9 +56,9 @@ const InvitesList = ({ token, onClose }) => {
     };
 
     return (
-        <div className="invites-container">
+        <div className="invites-container main-container">
             <div className="invites-header">
-                <h2>Invitations</h2>
+                <h1>Invitations</h1>
                 <button onClick={onClose} className="close-button">X</button>
             </div>
             <div className="invites-list">

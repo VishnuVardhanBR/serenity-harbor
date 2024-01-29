@@ -1,14 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./ChatPage.css";
-import { useNavigate } from "react-router-dom";
-import InvitesList from "./InvitesList"
+import InvitesList from "./InvitesList";
+import { mirage } from "ldrs";
+mirage.register();
+
 const ChatPage = () => {
 	const [messages, setMessages] = useState([]);
 	const [userInput, setUserInput] = useState("");
 	const [showInvites, setShowInvites] = useState(false);
 	const inputRef = useRef(null);
-	const navigate = useNavigate();
-	const token = localStorage.getItem('token');
+	// const navigate = useNavigate();
+	const token = localStorage.getItem("token");
 	const clearHistory = async () => {
 		try {
 			await fetch("http://localhost:8080/clear_history", {
@@ -27,10 +29,9 @@ const ChatPage = () => {
 		clearHistory();
 	}, []);
 
-	const handleLogout = async() => {
+	const handleLogout = async () => {
 		clearHistory();
 		localStorage.removeItem("token");
-		navigate("/login");
 		window.location.reload();
 	};
 
@@ -70,18 +71,27 @@ const ChatPage = () => {
 	};
 
 	return (
-		<div className="chat-container">
-			
+		<div className="chat-container main-container">
 			<div className="header">
-			<div>
-				<button onClick={() => setShowInvites(!showInvites)} className="show-invites">Show Invites</button>
-					{showInvites && <InvitesList token={token} onClose={() => setShowInvites(false)} />}
+				<div>
+					<button
+						onClick={() => setShowInvites(!showInvites)}
+						className="show-invites"
+					>
+						Show Invites
+					</button>
+					{showInvites && (
+						<InvitesList token={token} onClose={() => setShowInvites(false)} />
+					)}
 				</div>
 				<button onClick={handleLogout} className="logout-button">
 					Logout
 				</button>
 			</div>
 			<div className="message-container">
+				<div className="assistant">
+					<l-mirage size="60" speed="2.5" color="black"></l-mirage>
+				</div>
 				{messages.length === 0 ? (
 					<h1 className="placeholder-text">Serenity Harbor</h1>
 				) : (

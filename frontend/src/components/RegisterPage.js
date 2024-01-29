@@ -1,10 +1,12 @@
 import Logo from "../static/logo-text-color.png";
+import LoadingOverlay from "./LoadingOverlay"
 import React, { useState, useEffect } from "react";
 import "./RegisterPage.css";
 import { useNavigate } from "react-router-dom";
 
 const RegisterPage = () => {
 	const [selectedTab, setSelectedTab] = useState("consumer");
+	const [loading, setLoading] = useState(false);
 	const navigate = useNavigate();
 	const [formData, setFormData] = useState({
 		username: "",
@@ -34,6 +36,7 @@ const RegisterPage = () => {
 	};
 
 	const handleSubmit = async (e) => {
+		setLoading(true);
         e.preventDefault();
 		if (formData.password !== formData.confirmPassword) {
 			alert("Passwords don't match");
@@ -58,11 +61,13 @@ const RegisterPage = () => {
 			window.location.reload();
 		} catch (error) {
 			console.error("Error:", error);
+			setLoading(false);			
 		}
 	};
 
 	return (
-		<div className="register-container">
+		<div className="register-container main-container">
+			{loading && <LoadingOverlay/>}
 			<div className="tabs">
 				<div
 					className={`tab ${selectedTab === "consumer" ? "active" : ""}`}
