@@ -78,3 +78,14 @@ def fetch_openai_response_admin(username, messages):
 
     except Exception as e:
         print(e)
+
+from pathlib import Path
+def text_To_Speech(text):
+    speech_file_path = Path(__file__).parent.parent / "frontend/src/static/speech/speech.mp3"
+    response = client.audio.speech.create(
+    model="tts-1",
+    voice="alloy",
+    input=text,
+    )
+
+    response.stream_to_file(speech_file_path)
