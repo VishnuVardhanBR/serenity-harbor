@@ -4,7 +4,7 @@ import LoginPage from "./components/LoginPage";
 import AdminPage from "./components/AdminPage";
 import RegisterPage from "./components/RegisterPage";
 import { Routes, Route, Navigate } from "react-router-dom";
-import LoadingOverlay from "../components/LoadingOverlay";
+import LoadingOverlay from "./components/LoadingOverlay";
 
 export default function App() {
 	const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
