@@ -43,9 +43,26 @@
     text-align: left;
 }
 
+.exclude-button:hover {
+    background-color: #90B4B8;
+    cursor: pointer;
+}
+.container {
+    display: flex;
+    align-items: center; 
+    padding: 10px;
+}
+
+.container button{
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
 .input-container {
     display: flex;
-    padding: 10px;
+    flex-grow: 1; 
     background-color: white;
 }
 
@@ -53,14 +70,8 @@
     flex-grow: 1;
     padding: 10px;
     margin-right: 10px;
+    margin-left: 10px;
     background-color: white;
-}
-
-.input-container button {
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
 }
 
 .header {
