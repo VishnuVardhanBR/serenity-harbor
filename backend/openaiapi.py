@@ -2,9 +2,9 @@ import os, json
 from openai import OpenAI
 from dotenv import load_dotenv
 load_dotenv()
-#import guardrails as gd
-#from guardrails.validators import ToxicLanguage
-#from rich import print
+import guardrails as gd
+from guardrails.validators import OnTopic
+from guardrails.errors import ValidatorError
 
 client = OpenAI()
 
@@ -24,10 +24,40 @@ def initOpenAI(username):
 
 finetuned_model = os.getenv("FT_MODEL")
 
+def validate_user_prompt(user_prompt: str):
+    invalid_topics = ["suicide"]
+    valid_topics=[" "]
+    try:
+        guard = gd.Guard.from_string(
+    validators=[
+        OnTopic(
+            valid_topics=valid_topics,
+            invalid_topics=invalid_topics,
+            disable_classifier=False,
+            disable_llm=True,
+            on_fail="reask",
+        )
+    ]
+)
+        a=guard.parse(llm_output=user_prompt,)
+        if(a.validated_output==None):
+            return False
+        else:
+            return True
+        
+    except ValidatorError as e:
+        return False
+
 
 
 async def fetch_openai_response(user_prompt: str, username: str):
     try:
+        if(validate_user_prompt(user_prompt)==False):
+            chat_history.append({"role": "user", "content": user_prompt})
+            reply = "I'm sorry, please contact these numbers to get further assistance XXXXXXXXX"
+            chat_history.append({"role": "assistant", "content": reply})
+            return reply
+
         if len(chat_history) == 0:
             initOpenAI(username)
         chat_history.append({"role": "user", "content": user_prompt})
