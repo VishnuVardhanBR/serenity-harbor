@@ -162,7 +162,7 @@ def handle_text_to_speech():
     try:
         text = request.json.get('text')
         text_To_Speech(text)
-        file_path = Path(__file__).parent.parent / "frontend/src/static/speech/speech.mp3"
+        file_path = Path(__file__).parent / "speech/speech.mp3"
         if os.path.exists(file_path):
             return send_file(file_path, mimetype='audio/mpeg')
         else:
