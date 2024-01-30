@@ -25,6 +25,7 @@ button {
   color: black;
   transition: all 0.3s ease-in-out;
   border: none;
+  box-shadow: 0px 0px 5px #90B4B8;
 }
 
 button:hover {
@@ -48,6 +49,7 @@ input:focus, select:focus {
 input, select {
   border: 2px solid #90B4B8;
   border-radius: 5px;
+  box-shadow: 0px 0px 3px #90B4B8;
 }
 
 @keyframes fadeIn {
