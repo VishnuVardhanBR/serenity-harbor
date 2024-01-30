@@ -81,7 +81,7 @@ def fetch_openai_response_admin(username, messages):
 
 from pathlib import Path
 def text_To_Speech(text):
-    speech_file_path = Path(__file__).parent.parent / "frontend/src/static/speech/speech.mp3"
+    speech_file_path = Path(__file__).parent / "speech/speech.mp3"
     response = client.audio.speech.create(
     model="tts-1",
     voice="alloy",
