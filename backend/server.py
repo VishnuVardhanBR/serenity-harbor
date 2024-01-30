@@ -1,10 +1,11 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 import jwt, os
-from openaiapi import fetch_openai_response
+from openaiapi import fetch_openai_response,text_To_Speech
 from openaiapi import chat_history
 from dbutils import register_user, authenticate_user, save_current_chat, get_user_details, store_invite, fetch_invites, manage_invite, fetch_chat_summaries, fetch_consumers_with_admin
 from datetime import datetime, timedelta
+from pathlib import Path
 
 app = Flask(__name__)
 CORS(app)
@@ -155,6 +156,21 @@ def login():
         return jsonify({'status': 'User logged in successfully', 'token': token})
     else:
         return jsonify({'error': 'Invalid credentials'}), 401
+
+@app.route('/api/text_to_speech', methods=['POST'])
+def handle_text_to_speech():
+    try:
+        text = request.json.get('text')
+        text_To_Speech(text)
+        file_path = Path(__file__).parent / "speech/speech.mp3"
+        if os.path.exists(file_path):
+            return send_file(file_path, mimetype='audio/mpeg')
+        else:
+            print(f"File not found: {file_path}")
+            return "File not found", 404
+    except Exception as e:
+        print(e)
+        return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
     app.run(port=8080)

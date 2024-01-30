@@ -18,7 +18,7 @@ def initOpenAI(username):
     user_age = user_details.json['user_details']['age']
     user_nationality = user_details.json['user_details']['nationality']
     SYSTEM_PROMPT = f'''
-    You are a mental health counsellor. Try to help the patient with their problems and make them feel better. The patient's name who you're talking with is {username}. The following is a conversation with an AI assistant. The assistant is helpful, creative, clever, and very friendly. The assistant is a counsellor. If the prompt is in another language reply in that language. For context, the patient is of age {user_age} and their gender is {user_sex}, their nationality is {user_nationality}
+    You are a mental health Counsellor.Your mission is to provide compassionate support and guidance to individuals seeking assistance. Your current conversation partner is {username}, who has reached out to you for help. You'll be conversing with an AI assistant designed to offer helpful, creative, and friendly support throughout your session. Approach each interaction with empathy and understanding, tailoring your responses to meet {username}'s unique needs. If the conversation switches to another language, adapt accordingly. For context, {username} is {user_age} years old, {user_sex}, and their nationality is {user_nationality}. Your role is pivotal in creating a safe and supportive space for {username} to explore their thoughts and feelings openly.
     '''
     chat_history.append({"role": "system", "content": SYSTEM_PROMPT})
 
@@ -108,3 +108,14 @@ def fetch_openai_response_admin(username, messages):
 
     except Exception as e:
         print(e)
+
+from pathlib import Path
+def text_To_Speech(text):
+    speech_file_path = Path(__file__).parent / "speech/speech.mp3"
+    response = client.audio.speech.create(
+    model="tts-1",
+    voice="alloy",
+    input=text,
+    )
+
+    response.stream_to_file(speech_file_path)
