@@ -1,5 +1,5 @@
-import { grid } from "ldrs";
 import "./LoadingOverlay.css"
+import { grid } from "ldrs";
 grid.register();
 
 export default function LoadingOverlay() {

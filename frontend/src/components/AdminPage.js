@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
 import './AdminPage.css';
+import { grid } from "ldrs";
+grid.register();
 
 const AdminPage = () => {
     const [showInviteBox, setShowInviteBox] = useState(false);
@@ -40,6 +42,10 @@ const AdminPage = () => {
         }
     }, [selectedConsumer]);
 
+	const handleLogout = async () => {
+		localStorage.removeItem("token");
+		window.location.reload();
+	};
     const fetchSummaries = async (consumerUsername) => {
         setLoading(true);
         try {
@@ -95,19 +101,24 @@ const AdminPage = () => {
 
     return (
         <div className="admin-container main-container">
-            <button className="invite-button" onClick={handleInviteButtonClick}>Invite User</button>
+            <div className="header">
+				<button onClick={handleLogout} className="logout-button">
+					Logout
+				</button>
+                <button className="invite-button" onClick={handleInviteButtonClick}>Invite User</button>
+                {showInviteBox && (
+                    <div className="invite-box">
+                        <input 
+                            type="text" 
+                            value={username} 
+                            onChange={(e) => setUsername(e.target.value)} 
+                            placeholder="Enter username"
+                        />
+                        <button onClick={sendInvite}>Send Invite</button>
+                    </div>
+                )}
+			</div>
             
-            {showInviteBox && (
-                <div className="invite-box">
-                    <input 
-                        type="text" 
-                        value={username} 
-                        onChange={(e) => setUsername(e.target.value)} 
-                        placeholder="Enter username"
-                    />
-                    <button onClick={sendInvite}>Send Invite</button>
-                </div>
-            )}
 
             {popupMessage && <div className="popup-message">{popupMessage}</div>}
         
@@ -125,7 +136,7 @@ const AdminPage = () => {
                 </div>
                 <div className="summaries-content">
                     {loading ? (
-                        <div className="loading">Loading...</div> 
+                        <div className="loading"><l-grid size="70" speed="1.5" color="#205768"></l-grid></div> 
                     ) : (
                         summaries[selectedConsumer]?.map((summaryObj, index) => (
                             <div key={index} className="summary">

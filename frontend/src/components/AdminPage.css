@@ -3,7 +3,19 @@
     background-color: #FAF9EE;
     min-height: 100vh;
 }
-
+.header {
+    display: flex;
+    justify-content: end;
+    margin-left: auto;
+    padding: 10px;
+}
+.logout-button {
+    background: none;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 10px
+}
 .invite-button {
     border: none;
     padding: 10px 20px;
@@ -72,9 +84,11 @@
 
 .summary {
     margin-bottom: 20px;
+    border-radius: 10px;
     background-color: white;
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid #90B4B8;
+    box-shadow: 0px 0px 5px grey;
 }
 
 .summary-header {
