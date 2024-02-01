@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./ChatPage.css";
 import InvitesList from "./InvitesList";
+import { leapfrog } from 'ldrs'
+leapfrog.register()
 
 const ChatPage = () => {
 	const [messages, setMessages] = useState([]);
@@ -12,6 +14,7 @@ const ChatPage = () => {
 	const audioRef = useRef(null);
 	const recognitionRef = useRef(null);
 	const [speakingMessageIndex, setSpeakingMessageIndex] = useState(null);
+	const [assistantResponseLoading, setAssistantResponseLoading] = useState(false);
 	// const navigate = useNavigate();
 	const token = localStorage.getItem("token");
 
@@ -76,6 +79,7 @@ const ChatPage = () => {
 	};
 
 	const sendMessageToBackend = async (message) => {
+		setAssistantResponseLoading(true);
 		try {
 			const response = await fetch("http://localhost:8080/fetch_response", {
 				method: "POST",
@@ -89,8 +93,10 @@ const ChatPage = () => {
 			});
 
 			const responseData = await response.json();
+			setAssistantResponseLoading(false);
 			return responseData.response;
 		} catch (error) {
+			setAssistantResponseLoading(false);
 			console.error("Error:", error);
 		}
 	};
@@ -185,6 +191,7 @@ const ChatPage = () => {
 						</div>
 					))
 				)}
+				{assistantResponseLoading && (<l-leapfrog size="40" speed="2.5" color="black"></l-leapfrog>)}
 			</div>
 			<div class="container">
 				<button onClick={handleMicToggle}>

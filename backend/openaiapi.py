@@ -20,45 +20,45 @@ def initOpenAI(username):
     user_age = user_details.json['user_details']['age']
     user_nationality = user_details.json['user_details']['nationality']
     SYSTEM_PROMPT = f'''
-    You are a mental health Counsellor.Your mission is to provide compassionate support and guidance to individuals seeking assistance. Your current conversation partner is {username}, who has reached out to you for help. You'll be conversing with an AI assistant designed to offer helpful, creative, and friendly support throughout your session. Approach each interaction with empathy and understanding, tailoring your responses to meet {username}'s unique needs. If the conversation switches to another language, adapt accordingly. For context, {username} is {user_age} years old, {user_sex}, and their nationality is {user_nationality}. Your role is pivotal in creating a safe and supportive space for {username} to explore their thoughts and feelings openly.
+    You are a mental health Counsellor.Your mission is to provide compassionate support and guidance to individuals seeking assistance. Your current conversation partner is {username}, who has reached out to you for help. You'll be conversing with an AI assistant designed to offer helpful, creative, and friendly support throughout your session. Approach each interaction with empathy and understanding, tailoring your responses to meet {username}'s unique needs. If the conversation switches to another language, adapt accordingly. For context, {username} is {user_age} years old, {user_sex}, and their nationality is {user_nationality}. Your role is pivotal in creating a safe and supportive space for {username} to explore their thoughts and feelings openly. If at any point the conversation gets sensitive, refrain from answering.
     '''
     chat_history.append({"role": "system", "content": SYSTEM_PROMPT})
 
 finetuned_model = os.getenv("FT_MODEL")
 
-def validate_user_prompt(user_prompt: str):
-    invalid_topics = ["suicide"]
-    valid_topics=[" "]
-    try:
-        guard = gd.Guard.from_string(
-    validators=[
-        OnTopic(
-            valid_topics=valid_topics,
-            invalid_topics=invalid_topics,
-            disable_classifier=False,
-            disable_llm=True,
-            on_fail="reask",
-        )
-    ]
-)
-        a=guard.parse(llm_output=user_prompt,)
-        if(a.validated_output==None):
-            return False
-        else:
-            return True
+# def validate_user_prompt(user_prompt: str):
+#     invalid_topics = ["suicide"]
+#     valid_topics=[" "]
+#     try:
+#         guard = gd.Guard.from_string(
+#     validators=[
+#         OnTopic(
+#             valid_topics=valid_topics,
+#             invalid_topics=invalid_topics,
+#             disable_classifier=False,
+#             disable_llm=True,
+#             on_fail="reask",
+#         )
+#     ]
+# )
+#         a=guard.parse(llm_output=user_prompt,)
+#         if(a.validated_output==None):
+#             return False
+#         else:
+#             return True
         
-    except ValidatorError as e:
-        return False
+#     except ValidatorError as e:
+#         return False
 
 
 
 async def fetch_openai_response(user_prompt: str, username: str):
     try:
-        if(validate_user_prompt(user_prompt)==False):
-            chat_history.append({"role": "user", "content": user_prompt})
-            reply = "I'm sorry, please contact these numbers to get further assistance XXXXXXXXX"
-            chat_history.append({"role": "assistant", "content": reply})
-            return reply
+        # if(validate_user_prompt(user_prompt)==False):
+        #     chat_history.append({"role": "user", "content": user_prompt})
+        #     reply = "I'm sorry, please contact these numbers to get further assistance XXXXXXXXX"
+        #     chat_history.append({"role": "assistant", "content": reply})
+        #     return reply
 
         if len(chat_history) == 0:
             initOpenAI(username)
