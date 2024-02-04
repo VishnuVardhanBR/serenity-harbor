@@ -69,11 +69,11 @@ const ChatPage = () => {
 	};
 	useEffect(() => {
 		inputRef.current.focus();
-		clearHistory();
+		// clearHistory();
 	}, []);
 
 	const handleLogout = async () => {
-		clearHistory();
+		// clearHistory();
 		localStorage.removeItem("token");
 		window.location.reload();
 	};
