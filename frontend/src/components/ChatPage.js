@@ -19,7 +19,7 @@ const ChatPage = () => {
 		useState(false);
 	// const navigate = useNavigate();
 	const token = localStorage.getItem("token");
-
+	const messagesEndRef = useRef(null);
 	useEffect(() => {
 		window.SpeechRecognition =
 			window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -47,6 +47,10 @@ const ChatPage = () => {
 			recognitionRef.current.stop();
 		}
 	}, [isMicEnabled]);
+
+	useEffect(()=>{
+		messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+	}, [messages])
 
 	const handleMicToggle = () => {
 		setIsMicEnabled((prevIsMicEnabled) => {
@@ -203,6 +207,7 @@ const ChatPage = () => {
 				{assistantResponseLoading && (
 					<l-leapfrog size="40" speed="2.5" color="black"></l-leapfrog>
 				)}
+				<div ref={messagesEndRef}></div>
 			</div>
 			<div class="container">
 				<button onClick={handleMicToggle}>
