@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./ChatPage.css";
 import InvitesList from "./InvitesList";
-import { leapfrog } from 'ldrs'
-leapfrog.register()
+import { leapfrog } from "ldrs";
+leapfrog.register();
 
 const ChatPage = () => {
 	const [messages, setMessages] = useState([]);
@@ -14,7 +14,9 @@ const ChatPage = () => {
 	const audioRef = useRef(null);
 	const recognitionRef = useRef(null);
 	const [speakingMessageIndex, setSpeakingMessageIndex] = useState(null);
-	const [assistantResponseLoading, setAssistantResponseLoading] = useState(false);
+	const [speakLoading, setSpeakLoading] = useState(false);
+	const [assistantResponseLoading, setAssistantResponseLoading] =
+		useState(false);
 	// const navigate = useNavigate();
 	const token = localStorage.getItem("token");
 
@@ -116,6 +118,8 @@ const ChatPage = () => {
 		}
 	};
 	const handleSpeech = async (text, index) => {
+		setSpeakingMessageIndex(index);
+		setSpeakLoading(true);
 		try {
 			const response = await fetch("http://localhost:8080/api/text_to_speech", {
 				method: "POST",
@@ -133,13 +137,13 @@ const ChatPage = () => {
 			const url = window.URL.createObjectURL(blob);
 			audioRef.current = new Audio(url);
 			audioRef.current.play();
-			setSpeakingMessageIndex(index);
 			audioRef.current.onended = () => {
 				setSpeakingMessageIndex(null);
 			};
 		} catch (error) {
 			console.error("here is the ", error);
 		}
+		setSpeakLoading(false);
 	};
 
 	const stopSpeaking = () => {
@@ -178,20 +182,27 @@ const ChatPage = () => {
 									<br />
 									<button
 										className="exclude-button"
+										disabled={speakLoading}
 										onClick={
 											speakingMessageIndex === index
 												? stopSpeaking
 												: () => handleSpeech(message.text, index)
 										}
 									>
-										{speakingMessageIndex === index ? "Stop" : "Speak"}
+										{speakLoading && speakingMessageIndex === index
+											? <l-leapfrog size="15" speed="2.5" color="black"></l-leapfrog>
+											: speakingMessageIndex === index
+											? "Stop"
+											: "Speak"}
 									</button>
 								</>
 							)}
 						</div>
 					))
 				)}
-				{assistantResponseLoading && (<l-leapfrog size="40" speed="2.5" color="black"></l-leapfrog>)}
+				{assistantResponseLoading && (
+					<l-leapfrog size="40" speed="2.5" color="black"></l-leapfrog>
+				)}
 			</div>
 			<div class="container">
 				<button onClick={handleMicToggle}>
