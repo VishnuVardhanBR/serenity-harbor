@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import ChatPage from "./components/ChatPage";
 import LoginPage from "./components/LoginPage";
+import HomePage from "./components/HomePage";
 import AdminPage from "./components/AdminPage";
+import LandingPage from "./components/LandingPage";
 import RegisterPage from "./components/RegisterPage";
 import { Routes, Route, Navigate } from "react-router-dom";
 import LoadingOverlay from "./components/LoadingOverlay";
@@ -52,7 +54,7 @@ export default function App() {
 			<Routes>
 				<Route
 					path="/"
-					element={isUserLoggedIn ? <Navigate to="/home" /> : <LoginPage />}
+					element={isUserLoggedIn ? <Navigate to="/home" /> : <LandingPage />}
 				/>
 				<Route
 					path="/login"
@@ -64,6 +66,20 @@ export default function App() {
 				/>
 				<Route
 					path="/home"
+					element={
+						userType !== null ? (
+							userType === "consumer" ? (
+								<HomePage />
+							) : (
+								<AdminPage />
+							)
+						) : (
+							<LoginPage />
+						)
+					}
+				/>
+				<Route
+					path="/chat"
 					element={
 						userType !== null ? (
 							userType === "consumer" ? (
