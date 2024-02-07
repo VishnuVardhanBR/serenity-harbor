@@ -8,6 +8,25 @@ load_dotenv()
 
 client = OpenAI()
 
+<<<<<<< HEAD
+chat_history = []
+summary_chat_history = []
+
+def initOpenAI(username):
+    from dbutils import get_user_details
+    user_details = get_user_details(username)
+    user_sex = user_details.json['user_details']['sex']
+    user_age = user_details.json['user_details']['age']
+    user_nationality = user_details.json['user_details']['nationality']
+    SYSTEM_PROMPT = f'''
+    You are a mental health Counsellor.Your mission is to provide compassionate support and guidance to individuals seeking assistance. Your current conversation partner is {username}, who has reached out to you for help. You'll be conversing with an AI assistant designed to offer helpful, creative, and friendly support throughout your session. Approach each interaction with empathy and understanding, tailoring your responses to meet {username}'s unique needs. If the conversation switches to another language, adapt accordingly. For context, {username} is {user_age} years old, {user_sex}, and their nationality is {user_nationality}. Your role is pivotal in creating a safe and supportive space for {username} to explore their thoughts and feelings openly. If at any point the conversation gets sensitive, refrain from answering.
+    '''
+    chat_history.append({"role": "system", "content": SYSTEM_PROMPT})
+
+finetuned_model = os.getenv("FT_MODEL")
+
+
+=======
 # def validate_user_prompt(user_prompt: str):
 #     invalid_topics = ["suicide"]
 #     valid_topics=[" "]
@@ -31,6 +50,7 @@ client = OpenAI()
         
 #     except ValidatorError as e:
 #         return False
+>>>>>>> 5f3622dc89c8c60b91c31905550ebb6dfe2130de
 
 def initOpenAI(username):
     try:
@@ -57,6 +77,9 @@ def initOpenAI(username):
 
 async def fetch_openai_response(user_prompt: str, username: str):
     try:
+<<<<<<< HEAD
+        if len(chat_history) == 0:
+=======
         # if(validate_user_prompt(user_prompt)==False):
         #     chat_history.append({"role": "user", "content": user_prompt})
         #     reply = "I'm sorry, please contact these numbers to get further assistance XXXXXXXXX"
@@ -65,6 +88,7 @@ async def fetch_openai_response(user_prompt: str, username: str):
         db = get_db_connection()
         chat_session = db.chat_sessions.find_one({'username': username, 'active': True})
         if not chat_session:
+>>>>>>> 5f3622dc89c8c60b91c31905550ebb6dfe2130de
             initOpenAI(username)
             chat_session = db.chat_sessions.find_one({'username': username, 'active': True})
         
