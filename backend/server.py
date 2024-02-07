@@ -2,8 +2,7 @@ from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 import jwt, os
 from openaiapi import fetch_openai_response,text_to_speech
-from openaiapi import chat_history
-from dbutils import register_user, authenticate_user, save_current_chat, get_user_details, store_invite, fetch_invites, manage_invite, fetch_chat_summaries, fetch_consumers_with_admin
+from dbutils import register_user, authenticate_user, mark_inactive, get_user_details, store_invite, fetch_invites, manage_invite, fetch_consumers_with_admin, get_chat_history_for_date, fetch_chat_summaries
 from datetime import datetime, timedelta
 from pathlib import Path
 
@@ -65,10 +64,9 @@ async def fetch_response():
 def reset_chat():
     try:
         token = request.json.get('token')
-        if len(chat_history)>1:
-            print(save_current_chat(token, chat_history))
-        chat_history.clear()
-        return {"message": "Chat save & reset was successful"}
+        username = decode_token(token)
+        mark_inactive(username)
+        return jsonify({"error": "Success clearing history"}), 200
     except Exception as e:
         print(e)
         return jsonify({'error': str(e)}), 400
@@ -176,5 +174,13 @@ def handle_text_to_speech():
         print(e)
         return jsonify({'error': str(e)}), 500
 
+#to be implemented: to show chats of user from a date
+# @app.route('/chat_history/<username>/<date>', methods=['GET'])
+# def get_chat_history_for_date_helper(username, date):
+#     try: 
+#         return get_chat_history_for_date(username, date)
+#     except Exception as e:
+#         return jsonify({'error': str(e)}), 500
+    
 if __name__ == '__main__':
     app.run(debug=True, port=8080)

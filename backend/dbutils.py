@@ -40,36 +40,37 @@ def authenticate_user(username, password):
     else:
         return False
 
-def save_current_chat(token, chat_history):
-    try:
-        db = get_db_connection()
+# TO BE REMOVED
+# def save_current_chat(token, chat_history):
+#     try:
+#         db = get_db_connection()
 
-        username = jwt.decode(token, os.getenv("JWT_SECRET_KEY"), algorithms=["HS256"])['username']
+#         username = jwt.decode(token, os.getenv("JWT_SECRET_KEY"), algorithms=["HS256"])['username']
 
-        chat_history = [message for message in chat_history if message['role'] != 'system']
+#         chat_history = [message for message in chat_history if message['role'] != 'system']
 
-        if len(chat_history) == 0:
-            return jsonify({'error': 'Chat history is empty'}), 400
+#         if len(chat_history) == 0:
+#             return jsonify({'error': 'Chat history is empty'}), 400
 
-        last_chat = db.user_chats.find_one(sort=[('id', pymongo.DESCENDING)])
-        last_chat_id = last_chat['id'] + 1 if last_chat else 1
+#         last_chat = db.user_chats.find_one(sort=[('id', pymongo.DESCENDING)])
+#         last_chat_id = last_chat['id'] + 1 if last_chat else 1
 
-        new_chat = {
-            'id': last_chat_id,
-            'username': username,
-            'timestamp': datetime.utcnow(),
-            'messages': chat_history
-        }
+#         new_chat = {
+#             'id': last_chat_id,
+#             'username': username,
+#             'timestamp': datetime.utcnow(),
+#             'messages': chat_history
+#         }
 
-        db.user_chats.insert_one(new_chat)
-        save_current_chat_summary(username, chat_history, last_chat_id)
-        print ("Success saving chat")
+#         db.user_chats.insert_one(new_chat)
+#         save_current_chat_summary(username, chat_history, last_chat_id)
+#         print ("Success saving chat")
 
-    except Exception as e:
-        print(e)
-        return jsonify({'error': str(e)}), 400
+    # except Exception as e:
+    #     print(e)
+    #     return jsonify({'error': str(e)}), 400
 
-
+# TO BE REMOVED LATER
 def save_current_chat_summary(username, messages, chat_id):
     try:
         from openaiapi import fetch_openai_response_admin
@@ -191,5 +192,27 @@ def fetch_consumers_with_admin(admin_username):
         consumer_usernames = [relation['consumer_username'] for relation in all_relations]
         return jsonify({'consumer_usernames': consumer_usernames}), 200
 
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    
+def mark_inactive(username):
+    db = get_db_connection()
+    active_session = db.chat_sessions.find_one({'username': username, 'active': True})
+    chat_history = active_session['chat_history']
+    chat_id = active_session['id'] if active_session['id'] else 0
+    db.chat_sessions.update_one({'username': username, 'active': True}, {'$set': {'active': False}})
+    if len(chat_history)>1:
+        save_current_chat_summary(username, chat_history, chat_id)
+    
+def get_chat_history_for_date(username, date):
+    try:
+        db = get_db_connection()
+        chat_session = db.chat_sessions.find_one({'username': username, 'active': True})
+        if chat_session:
+            chat_history = chat_session['chat_history']
+            chats_for_date = [message for message in chat_history if message.get('timestamp').date() == datetime.strptime(date, '%Y-%m-%d').date()]
+            return jsonify({'chats': chats_for_date}), 200
+        else:
+            return jsonify({'error': 'Chat session not found'}), 404
     except Exception as e:
         return jsonify({'error': str(e)}), 500
