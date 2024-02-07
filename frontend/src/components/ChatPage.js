@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./ChatPage.css";
+import LoadingOverlay from "./LoadingOverlay"
 import InvitesList from "./InvitesList";
 import { leapfrog } from "ldrs";
 leapfrog.register();
@@ -10,13 +11,13 @@ const ChatPage = () => {
 	const [showInvites, setShowInvites] = useState(false);
 	const inputRef = useRef(null);
 	const [isMicEnabled, setIsMicEnabled] = useState(false);
-	const [stream, setStream] = useState(null);
+	// const [stream, setStream] = useState(null);
 	const audioRef = useRef(null);
 	const recognitionRef = useRef(null);
 	const [speakingMessageIndex, setSpeakingMessageIndex] = useState(null);
 	const [speakLoading, setSpeakLoading] = useState(false);
-	const [assistantResponseLoading, setAssistantResponseLoading] =
-		useState(false);
+	const [assistantResponseLoading, setAssistantResponseLoading] = useState(false);
+	const [loading, setLoading] = useState(false);
 	// const navigate = useNavigate();
 	const token = localStorage.getItem("token");
 	const messagesEndRef = useRef(null);
@@ -60,26 +61,31 @@ const ChatPage = () => {
 		});
 	};
 
-	const clearHistory = async () => {
-		try {
-			await fetch("http://localhost:8080/clear_history", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({ token: localStorage.getItem("token") }),
-			});
-		} catch (error) {
-			console.error("Error:", error);
+	const clearChat = async () => {
+		if (messages.length === 0) {
+			console.log("No messages to clear.");
+			return; 
 		}
-	};
-	useEffect(() => {
-		inputRef.current.focus();
-		// clearHistory();
-	}, []);
+		setLoading(true); 
+        try {
+            const response = await fetch("http://localhost:8080/clear_history", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ token: localStorage.getItem("token") }),
+            });
+            if (response.ok) {
+                setMessages([]); 
+            }
+        } catch (error) {
+            console.error("Error clearing history:", error);
+        }
+		setLoading(false);
+    };
+
 
 	const handleLogout = async () => {
-		// clearHistory();
 		localStorage.removeItem("token");
 		window.location.reload();
 	};
@@ -158,6 +164,7 @@ const ChatPage = () => {
 
 	return (
 		<div className="chat-container main-container">
+			{loading && <LoadingOverlay/>}
 			<div className="header">
 				<div>
 					<button
@@ -170,6 +177,9 @@ const ChatPage = () => {
 						<InvitesList token={token} onClose={() => setShowInvites(false)} />
 					)}
 				</div>
+				<button onClick={clearChat} className="clear-chat-button">
+                    Start New
+                </button>
 				<button onClick={handleLogout} className="logout-button">
 					Logout
 				</button>
@@ -209,12 +219,12 @@ const ChatPage = () => {
 				)}
 				<div ref={messagesEndRef}></div>
 			</div>
-			<div class="container">
+			<div className="container">
 				<button onClick={handleMicToggle}>
 					{isMicEnabled ? "Disable Mic" : "Enable Mic"}
 				</button>
 				{isMicEnabled && <audio ref={audioRef} />}
-				<form onSubmit={handleSendMessage} class="input-container">
+				<form onSubmit={handleSendMessage} className="input-container">
 					<input
 						ref={inputRef}
 						type="text"

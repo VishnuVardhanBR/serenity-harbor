@@ -40,6 +40,7 @@ const RegisterPage = () => {
         e.preventDefault();
 		if (formData.password !== formData.confirmPassword) {
 			alert("Passwords don't match");
+			setLoading(false);
 			return;
 		}
 		try {
