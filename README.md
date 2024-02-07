@@ -51,7 +51,10 @@ Use /login /register and /chat if some of the pages are in development and you c
 
 Color Palette
 
+<img src="frontend/src/static/palette.png" alt="palette" width="200"/>
 #90B4B8
 #367A8C
-#FFFFFF
 #FAF9EE
+#F4F4F6
+#FFFFFF
+
