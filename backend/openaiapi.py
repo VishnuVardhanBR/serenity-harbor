@@ -2,11 +2,7 @@ import os, json
 from openai import OpenAI
 from dotenv import load_dotenv
 load_dotenv()
-import guardrails as gd
-from guardrails.validators import OnTopic
-from guardrails.errors import ValidatorError
-from transformers import logging
-logging.set_verbosity_error()
+
 
 client = OpenAI()
 
