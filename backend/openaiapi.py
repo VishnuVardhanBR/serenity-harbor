@@ -8,7 +8,7 @@ load_dotenv()
 
 client = OpenAI()
 
-<<<<<<< HEAD
+
 chat_history = []
 summary_chat_history = []
 
@@ -26,7 +26,7 @@ def initOpenAI(username):
 finetuned_model = os.getenv("FT_MODEL")
 
 
-=======
+
 # def validate_user_prompt(user_prompt: str):
 #     invalid_topics = ["suicide"]
 #     valid_topics=[" "]
@@ -50,7 +50,7 @@ finetuned_model = os.getenv("FT_MODEL")
         
 #     except ValidatorError as e:
 #         return False
->>>>>>> 5f3622dc89c8c60b91c31905550ebb6dfe2130de
+
 
 def initOpenAI(username):
     try:
@@ -77,9 +77,9 @@ def initOpenAI(username):
 
 async def fetch_openai_response(user_prompt: str, username: str):
     try:
-<<<<<<< HEAD
+
         if len(chat_history) == 0:
-=======
+
         # if(validate_user_prompt(user_prompt)==False):
         #     chat_history.append({"role": "user", "content": user_prompt})
         #     reply = "I'm sorry, please contact these numbers to get further assistance XXXXXXXXX"
@@ -88,7 +88,6 @@ async def fetch_openai_response(user_prompt: str, username: str):
         db = get_db_connection()
         chat_session = db.chat_sessions.find_one({'username': username, 'active': True})
         if not chat_session:
->>>>>>> 5f3622dc89c8c60b91c31905550ebb6dfe2130de
             initOpenAI(username)
             chat_session = db.chat_sessions.find_one({'username': username, 'active': True})
         
