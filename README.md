@@ -45,3 +45,13 @@ Start the frontend development server:
 ```bash
 npm start
 ```
+
+Use /login /register and /chat if some of the pages are in development and you cannot access pages.
+
+
+Color Palette
+
+#90B4B8
+#367A8C
+#FFFFFF
+#FAF9EE
