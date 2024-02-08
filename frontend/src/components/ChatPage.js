@@ -21,7 +21,7 @@ const ChatPage = () => {
 	// const navigate = useNavigate();
 	const token = localStorage.getItem("token");
 	const messagesEndRef = useRef(null);
-	const initialPrompts = ["Welcome to Serenity Harbor! You can share your thoughts, feelings, problems, etc. What bothered you to come here?"];
+	const initialPrompts = ["Welcome to Serenity Harbor. How can I support you today?"];
     const initialResponsesRef = useRef([]);
     const initialPromptIndexRef = useRef(0);
 	useEffect(() => {

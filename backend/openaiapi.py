@@ -50,7 +50,7 @@ def initOpenAI(username,initial_prompts):
             'active': True,
             'chat_history': [
                 {'role': 'system', 'content': SYSTEM_PROMPT},
-                {'role': 'assistant', 'content': "Welcome to Serenity Harbor! You can share your thoughts, feelings, problems, etc. What bothered you to come here?"},
+                {'role': 'assistant', 'content': "Welcome to Serenity Harbor. How can I support you today?"},
                 {'role': 'user', 'content': initial_prompts[0]},
             ],
             'id': chat_id+1
