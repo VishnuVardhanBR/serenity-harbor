@@ -32,7 +32,7 @@ client = OpenAI()
 #     except ValidatorError as e:
 #         return False
 
-def initOpenAI(username):
+def initOpenAI(username,initial_prompts):
     try:
         db = get_db_connection()
 
@@ -48,14 +48,21 @@ def initOpenAI(username):
         db.chat_sessions.insert_one({
             'username': username,
             'active': True,
-            'chat_history': [{'role': 'system', 'content': SYSTEM_PROMPT}],
+            'chat_history': [
+                {'role': 'system', 'content': SYSTEM_PROMPT},
+                {'role': 'assistant', 'content': "Welcome to Serenity Harbor! You can share your thoughts, feelings, problems, etc. What bothered you to come here?"},
+                {'role': 'user', 'content': initial_prompts[0]},
+                {'role': 'assistant', 'content': "Feel free to express yourself. Is there anything specific you'd like to talk about?"},
+                {'role': 'user', 'content': initial_prompts[1]},
+                {'role': 'assistant', 'content': "Is there anything else you'd like to share?"},
+            ],
             'id': chat_id+1
         })
 
     except Exception as e:
         print(e)
 
-async def fetch_openai_response(user_prompt: str, username: str):
+async def fetch_openai_response(user_prompt: str, username: str,initial_prompts: list = []):
     try:
         # if(validate_user_prompt(user_prompt)==False):
         #     chat_history.append({"role": "user", "content": user_prompt})
@@ -65,7 +72,7 @@ async def fetch_openai_response(user_prompt: str, username: str):
         db = get_db_connection()
         chat_session = db.chat_sessions.find_one({'username': username, 'active': True})
         if not chat_session:
-            initOpenAI(username)
+            initOpenAI(username,initial_prompts)
             chat_session = db.chat_sessions.find_one({'username': username, 'active': True})
         
         chat_history = chat_session['chat_history']
