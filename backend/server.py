@@ -53,7 +53,8 @@ async def fetch_response():
     try:
         username = decode_token(request.json.get('token'))
         user_prompt = request.json.get('userprompt')
-        response = await fetch_openai_response(user_prompt, username)
+        initial_prompts = request.json.get('initial_responses')
+        response = await fetch_openai_response(user_prompt, username, initial_prompts)
         return jsonify({'response': response})
 
     except Exception as e:
