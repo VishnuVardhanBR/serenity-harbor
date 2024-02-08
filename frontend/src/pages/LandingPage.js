@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./LandingPage.css";
 import { leapfrog } from "ldrs";
-import Logo from "../static/logo.png";
-import { Button } from "@mantine/core";
 import DetailsCard from "../components/DetailsCard";
 leapfrog.register();
 
@@ -10,20 +8,7 @@ const LandingPage = () => {
   const data = [1, 2, 3, 4, 5];
   return (
     <div className="w-full min-h-[100vh] flex flex-col items-center">
-      <div className="w-[70%] flex justify-between">
-        <img src={Logo} alt="logo" className="w-36 h-28" />
-        <div className="flex flex-row mt-10 h-fit gap-5 items-center">
-          <Button
-            variant="gradient"
-            gradient={{ from: "green", to: "teal", deg: 360 }}
-          >
-            Login
-          </Button>
-          <Button variant="outline" color="teal">
-            Sign Up
-          </Button>
-        </div>
-      </div>
+      
       <div className="w-full flex flex-col justify-center items-center gap-5">
         <p className="text-4xl font-bold text-green-500">
           Welcome to the chat app

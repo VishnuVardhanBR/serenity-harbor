@@ -52,7 +52,6 @@ export default function App() {
   }
 
   return (
-    <MantineProvider>
       <div>
         <Routes>
           <Route
@@ -72,16 +71,16 @@ export default function App() {
           <Route
             path="/home"
             element={
-              userType !== null ? (
-                userType === "consumer" ? (
+            //   userType !== null ? (
+            //     userType === "consumer" ? (
                   <HomePage />
-                ) : (
+                /* ) : (
                   <AdminPage />
                 )
               ) : (
                 <LoginPage />
-              )
-            }
+              ) */}
+            // {/* } */}
           />
           <Route
             path="/chat"
@@ -99,6 +98,5 @@ export default function App() {
           />
         </Routes>
       </div>
-    </MantineProvider>
   );
 }
