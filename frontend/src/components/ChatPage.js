@@ -131,41 +131,64 @@ const ChatPage = () => {
         }
     }, []);
 
+    const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
     const handleSendMessage = async (e) => {
-        setUserInput("");
-        e.preventDefault();
-        if (userInput.trim()) {
-            const newMessage = { text: userInput, sender: "user" };
-            setMessages([...messages, newMessage]);
-
-            // Store user response for the current initial prompt
-            initialResponsesRef.current.push(userInput);
-
-            // Check if there are more initial prompts to show
-            if (initialPromptIndexRef.current < initialPrompts.length - 1) {
-                // Show the next initial prompt
-                const nextInitialPrompt = initialPrompts[initialPromptIndexRef.current + 1];
-                setMessages((prev) => [
-                    ...prev,
-                    { text: nextInitialPrompt, sender: "assistant" },
-                ]);
-
-                // Move to the next initial prompt
-                initialPromptIndexRef.current++;
-            } else {
-                // If all initial prompts are answered, send the data to fetch_response
-                const assistantResponse = await sendMessageToBackend(userInput, initialResponsesRef.current);
-                setMessages((prev) => [
-                    ...prev,
-                    { text: assistantResponse, sender: "assistant" },
-                ]);
-
-                // Clear initial responses and reset prompt index
-                initialResponsesRef.current = [];
-                // initialPromptIndexRef.current = 0;
-            }
-        }
-    };
+		setUserInput("");
+		e.preventDefault();
+		if (userInput.trim()) {
+		  const newMessage = { text: userInput, sender: "user" };
+		  setMessages([...messages, newMessage]);
+	  
+		  // Check if there are more initial prompts to show
+		  if (initialPromptIndexRef.current < initialPrompts.length - 1) {
+			// Show the next initial prompt
+			const nextInitialPrompt = initialPrompts[initialPromptIndexRef.current + 1];
+			setMessages((prev) => [
+			  ...prev,
+			  { text: nextInitialPrompt, sender: "assistant" },
+			]);
+	  
+			// Store user response for the current initial prompt
+			initialResponsesRef.current.push(userInput);
+	  
+			// Move to the next initial prompt
+			initialPromptIndexRef.current++;
+		  } else {
+			// If all initial prompts are answered, send the data to fetch_response
+			setAssistantResponseLoading(true);
+			try {
+			  const assistantResponse = await sendMessageToBackend(userInput, initialResponsesRef.current);
+			  setMessages((prev) => [
+				...prev,
+				{ text: "", sender: "assistant"},
+			  ]);
+	  
+			  // Simulate typing effect
+			  for (let i = 0; i < assistantResponse.length; i++) {
+				await sleep(25);  // Adjust the delay as needed
+				setMessages((prev) => [
+				  ...prev.slice(0, -1),
+				  { text: prev[prev.length - 1].text + assistantResponse[i], sender: "assistant" },
+				]);
+			  }
+	  
+			  // Replace the "Typing..." message with the actual response
+			  setMessages((prev) => [
+				...prev.slice(0, -1),
+				{ text: assistantResponse, sender: "assistant" },
+			  ]);
+	  
+			  // Clear initial responses and reset prompt index
+			  initialResponsesRef.current = [];
+			} catch (error) {
+			  console.error("Error:", error);
+			} finally {
+			  setAssistantResponseLoading(false);
+			}
+		  }
+		}
+	  };
+	  
 	const handleSpeech = async (text, index) => {
 		setSpeakingMessageIndex(index);
 		setSpeakLoading(true);
