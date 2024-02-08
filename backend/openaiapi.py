@@ -52,9 +52,6 @@ def initOpenAI(username,initial_prompts):
                 {'role': 'system', 'content': SYSTEM_PROMPT},
                 {'role': 'assistant', 'content': "Welcome to Serenity Harbor! You can share your thoughts, feelings, problems, etc. What bothered you to come here?"},
                 {'role': 'user', 'content': initial_prompts[0]},
-                {'role': 'assistant', 'content': "Feel free to express yourself. Is there anything specific you'd like to talk about?"},
-                {'role': 'user', 'content': initial_prompts[1]},
-                {'role': 'assistant', 'content': "Is there anything else you'd like to share?"},
             ],
             'id': chat_id+1
         })
