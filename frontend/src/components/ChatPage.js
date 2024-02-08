@@ -21,6 +21,9 @@ const ChatPage = () => {
 	// const navigate = useNavigate();
 	const token = localStorage.getItem("token");
 	const messagesEndRef = useRef(null);
+	const initialPrompts = ["Welcome to Serenity Harbor! You can share your thoughts, feelings, problems, etc. What bothered you to come here?", "Feel free to express yourself. Is there anything specific you'd like to talk about?", "Is there anything else you'd like to share?"];
+    const initialResponsesRef = useRef([]);
+    const initialPromptIndexRef = useRef(0);
 	useEffect(() => {
 		window.SpeechRecognition =
 			window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -90,7 +93,7 @@ const ChatPage = () => {
 		window.location.reload();
 	};
 
-	const sendMessageToBackend = async (message) => {
+	const sendMessageToBackend = async (userInput, initialResponses) => {
 		setAssistantResponseLoading(true);
 		try {
 			const response = await fetch("http://localhost:8080/fetch_response", {
@@ -99,11 +102,14 @@ const ChatPage = () => {
 					"Content-Type": "application/json",
 				},
 				body: JSON.stringify({
-					userprompt: message,
+					userprompt: userInput,
+					initial_responses: initialResponses,
 					token: localStorage.getItem("token"),
 				}),
 			});
-
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
 			const responseData = await response.json();
 			setAssistantResponseLoading(false);
 			return responseData.response;
@@ -112,21 +118,54 @@ const ChatPage = () => {
 			console.error("Error:", error);
 		}
 	};
+	
 
-	const handleSendMessage = async (e) => {
-		setUserInput("");
-		e.preventDefault();
-		if (userInput.trim()) {
-			const newMessage = { text: userInput, sender: "user" };
-			setMessages([...messages, newMessage]);
+	useEffect(() => {
+        // Show the first initial prompt when the component mounts
+        if (initialPrompts.length > 0) {
+            const firstInitialPrompt = initialPrompts[0];
+            setMessages((prev) => [
+                ...prev,
+                { text: firstInitialPrompt, sender: "assistant" },
+            ]);
+        }
+    }, []);
 
-			const assistantResponse = await sendMessageToBackend(userInput);
-			setMessages((prev) => [
-				...prev,
-				{ text: assistantResponse, sender: "assistant" },
-			]);
-		}
-	};
+    const handleSendMessage = async (e) => {
+        setUserInput("");
+        e.preventDefault();
+        if (userInput.trim()) {
+            const newMessage = { text: userInput, sender: "user" };
+            setMessages([...messages, newMessage]);
+
+            // Store user response for the current initial prompt
+            initialResponsesRef.current.push(userInput);
+
+            // Check if there are more initial prompts to show
+            if (initialPromptIndexRef.current < initialPrompts.length - 1) {
+                // Show the next initial prompt
+                const nextInitialPrompt = initialPrompts[initialPromptIndexRef.current + 1];
+                setMessages((prev) => [
+                    ...prev,
+                    { text: nextInitialPrompt, sender: "assistant" },
+                ]);
+
+                // Move to the next initial prompt
+                initialPromptIndexRef.current++;
+            } else {
+                // If all initial prompts are answered, send the data to fetch_response
+                const assistantResponse = await sendMessageToBackend(userInput, initialResponsesRef.current);
+                setMessages((prev) => [
+                    ...prev,
+                    { text: assistantResponse, sender: "assistant" },
+                ]);
+
+                // Clear initial responses and reset prompt index
+                initialResponsesRef.current = [];
+                // initialPromptIndexRef.current = 0;
+            }
+        }
+    };
 	const handleSpeech = async (text, index) => {
 		setSpeakingMessageIndex(index);
 		setSpeakLoading(true);
