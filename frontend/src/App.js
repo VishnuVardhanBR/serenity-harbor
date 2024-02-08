@@ -71,16 +71,16 @@ export default function App() {
           <Route
             path="/home"
             element={
-            //   userType !== null ? (
-            //     userType === "consumer" ? (
+              userType !== null ? (
+                userType === "consumer" ? (
                   <HomePage />
-                /* ) : (
+                 ) : (
                   <AdminPage />
                 )
               ) : (
                 <LoginPage />
-              ) */}
-            // {/* } */}
+              ) }
+             
           />
           <Route
             path="/chat"
