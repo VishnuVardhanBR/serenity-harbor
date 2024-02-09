@@ -104,3 +104,42 @@
     cursor: pointer;
     padding: 10px
 }
+.helpline-button-container {
+    position: relative;
+}
+.helpline-button {
+    background-color: #6ec694;
+    color: white;
+    border-radius: 5px;
+    margin-right: 10px;
+    cursor: pointer;
+    padding: 10px;
+    transition: background-color 0.3s ease;
+}
+.helpline-button:hover {
+    background-color: #5aaf7d;
+}
+
+.helpline-details {
+    background-color: #d9ffe4;
+    color: #333333;
+    border: 1px solid #cccccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    border-radius: 5px;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1;
+    visibility: hidden;
+    opacity: 0;
+    width: 350px; /* Adjust the width as needed */
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease, width 0.3s ease;
+    transform: translateY(-10px);
+}
+
+.helpline-button-container:hover .helpline-details {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+}

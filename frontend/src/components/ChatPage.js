@@ -21,6 +21,7 @@ const ChatPage = () => {
 	// const navigate = useNavigate();
 	const token = localStorage.getItem("token");
 	const messagesEndRef = useRef(null);
+	const [showHelpline, setShowHelpline] = useState(false);
 	const initialPrompts = ["Welcome to Serenity Harbor. How can I support you today?"];
     const initialResponsesRef = useRef([]);
     const initialPromptIndexRef = useRef(0);
@@ -205,6 +206,27 @@ const ChatPage = () => {
 		<div className="chat-container main-container">
 			{loading && <LoadingOverlay/>}
 			<div className="header">
+				<div className="helpline-button-container">
+					<button
+						className="helpline-button"
+						onMouseOver={() => setShowHelpline(true)}
+						onMouseOut={() => setShowHelpline(false)}
+					>
+						Helpline
+					</button>
+					{showHelpline && (
+						<div className="helpline-details">
+						(IASP): +00 11 22 33 44 55 
+						<br />
+						AASRA: +91-9820466746 
+						<br />
+						Sanjivani Society: +91-11-24644902 
+						<br />
+						Vandrevala Foundation: +91-9999 666 555
+						<br />
+						</div>
+					)}
+				</div>
 				<div>
 					<button
 						onClick={() => setShowInvites(!showInvites)}
