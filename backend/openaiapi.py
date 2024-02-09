@@ -66,6 +66,9 @@ async def fetch_openai_response(user_prompt: str, username: str,initial_prompts:
         #     reply = "I'm sorry, please contact these numbers to get further assistance XXXXXXXXX"
         #     chat_history.append({"role": "assistant", "content": reply})
         #     return reply
+        check_moderation = client.moderations.create(input=user_prompt)
+        if(check_moderation.results[0]["self-harm"] or check_moderation.results[0]["self-harm/intent"] or check_moderation.results[0]["self-harm/instructions"]):
+            return "I'm sorry, these kind of conversations are not encouraged here. Please contact the above helpline numbers for further assistance."
         db = get_db_connection()
         chat_session = db.chat_sessions.find_one({'username': username, 'active': True})
         if not chat_session:
