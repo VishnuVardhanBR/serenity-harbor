@@ -54,7 +54,7 @@ export default function App() {
 			<Routes>
 				<Route
 					path="/"
-					element={isUserLoggedIn ? <Navigate to="/home" /> : <LandingPage />}
+					element={isUserLoggedIn ? <Navigate to="/home" /> : <LoginPage />}
 				/>
 				<Route
 					path="/login"
@@ -69,7 +69,7 @@ export default function App() {
 					element={
 						userType !== null ? (
 							userType === "consumer" ? (
-								<HomePage />
+								<ChatPage />
 							) : (
 								<AdminPage />
 							)
