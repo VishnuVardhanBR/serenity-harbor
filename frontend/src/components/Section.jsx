@@ -11,13 +11,12 @@ const Section = () => {
       <div className="w-[60%] flex justify-center items-center gap-5">
         <div className="flex flex-col w-1/2 gap-2 items-center">
           <p className="text-2xl font-semibold leading-[2]">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsa
-            maxime cumque nemo eius quidem dolores dolor nam nulla ducimus
-            deleniti distincti
+          Serenity Harbor provides 24/7 AI-based mental health support, focusing on accessibility,
+          anonymity, and inclusivity.
           </p>
           <p className="text-base font-base">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsa
-            maxime cumque nemo eius quidem dolores dolor n
+          It's designed for individuals with social anxiety, hearing or speech
+        impairments, and anyone seeking confidential care.
           </p>
           <Button
             leftSection={<IoMdChatbubbles />}

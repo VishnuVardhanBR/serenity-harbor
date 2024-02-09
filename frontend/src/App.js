@@ -69,12 +69,12 @@ export default function App() {
 					element={
 						userType !== null ? (
 							userType === "consumer" ? (
-								<HomePage />
+								<ChatPage />
 							) : (
 								<AdminPage />
 							)
 						) : (
-							<LoginPage />
+							<HomePage />
 						)
 					}
 				/>

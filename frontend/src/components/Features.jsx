@@ -3,9 +3,9 @@ import { MdFeaturedPlayList } from "react-icons/md";
 import DetailsCard from './DetailsCard';
 
 const Features = () => {
-    const featureheading = ["Feature 1", "Feature 2", "Feature 3", "Feature 4", "Feature 5"]
-    const features=["A fast and lightweight chat application to help mental health patients", "A fast and lightweight chat application to help mental health patients", "A fast and lightweight chat application to help mental health patients", "A fast and lightweight chat application to help mental health patients", "A fast and lightweight chat application to help mental health patients"]
-    const logos = [MdFeaturedPlayList, MdFeaturedPlayList, MdFeaturedPlayList, MdFeaturedPlayList, MdFeaturedPlayList]
+    const featureheading = ["Accessibility", "Anonymity", "Language Translation Capability", "personalised care"]
+    const features=["Our solution breaks down barriers to mental health care,providing accessible support 24/7, anytime and anywhere", "Addressing privacy concerns and stigma associated with mental health discussions.", "Overcoming linguistic barriers to cater to a global audience.", "Allows users to choose from a variety of voices or customize the pitch, speed, and tone of the generated speech."]
+    const logos = [MdFeaturedPlayList, MdFeaturedPlayList, MdFeaturedPlayList, MdFeaturedPlayList]
   return (
       <div className='bg-gray-200 w-full flex flex-col gap-10 pt-10 pb-10 justify-center items-center '>
           <p className="text-3xl font-bold ">
