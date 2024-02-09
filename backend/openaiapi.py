@@ -70,7 +70,7 @@ async def fetch_openai_response(user_prompt: str, username: str,initial_prompts:
             check_moderation = client.moderations.create(input=user_prompt)
             print("Moderation check successful")
             if(check_moderation.results[0].categories.self_harm or check_moderation.results[0].categories.self_harm_intent or check_moderation.results[0].categories.self_harm_instructions):
-                return "I'm sorry, these kind of conversations are not encouraged here. Please contact the above helpline numbers for further assistance."
+                return "I'm sorry, I cannot respond to that. Please contact a helpline number instead."
         except Exception as e:
             print("Moderation check failed")
             print("and the issue is",e)
