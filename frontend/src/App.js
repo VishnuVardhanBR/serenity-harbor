@@ -54,7 +54,7 @@ export default function App() {
 			<Routes>
 				<Route
 					path="/"
-					element={isUserLoggedIn ? <Navigate to="/home" /> : <LoginPage />}
+					element={isUserLoggedIn ? <Navigate to="/home" /> : <HomePage />}
 				/>
 				<Route
 					path="/login"
@@ -74,7 +74,7 @@ export default function App() {
 								<AdminPage />
 							)
 						) : (
-							<LoginPage />
+							<HomePage />
 						)
 					}
 				/>
@@ -88,7 +88,7 @@ export default function App() {
 								<AdminPage />
 							)
 						) : (
-							<LoginPage />
+							<HomePage />
 						)
 					}
 				/>
