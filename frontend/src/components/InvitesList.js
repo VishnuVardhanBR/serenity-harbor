@@ -9,7 +9,7 @@ const InvitesList = ({ token, onClose }) => {
         const fetchInvites = async () => {
             setIsLoading(true);
             try {
-                const response = await fetch('http://localhost:8080/fetch_invites', {
+                const response = await fetch(process.env.REACT_APP_BACKEND_HOST+'/fetch_invites', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ const InvitesList = ({ token, onClose }) => {
     const handleInviteResponse = async (username, accepted) => {
         setProcessingInvite(username);
         try {
-            const response = await fetch('http://localhost:8080/manage_invite', {
+            const response = await fetch(process.env.REACT_APP_BACKEND_HOST+'/manage_invite', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

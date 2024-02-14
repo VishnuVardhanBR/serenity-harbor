@@ -72,7 +72,7 @@ const ChatPage = () => {
 		}
 		setLoading(true); 
         try {
-            const response = await fetch("http://localhost:8080/clear_history", {
+            const response = await fetch(process.env.REACT_APP_BACKEND_HOST+"/clear_history", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -97,7 +97,7 @@ const ChatPage = () => {
 	const sendMessageToBackend = async (userInput, initialResponses) => {
 		setAssistantResponseLoading(true);
 		try {
-			const response = await fetch("http://localhost:8080/fetch_response", {
+			const response = await fetch(process.env.REACT_APP_BACKEND_HOST+"/fetch_response", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
@@ -171,7 +171,7 @@ const ChatPage = () => {
 		setSpeakingMessageIndex(index);
 		setSpeakLoading(true);
 		try {
-			const response = await fetch("http://localhost:8080/api/text_to_speech", {
+			const response = await fetch(process.env.REACT_APP_BACKEND_HOST+"/api/text_to_speech", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",

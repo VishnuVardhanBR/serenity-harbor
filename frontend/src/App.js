@@ -22,7 +22,7 @@ export default function App() {
 			}
 
 			try {
-				const response = await fetch("http://localhost:8080/verify_token", {
+				const response = await fetch(process.env.REACT_APP_BACKEND_HOST+"/verify_token", {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json",

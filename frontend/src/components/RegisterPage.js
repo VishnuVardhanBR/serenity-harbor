@@ -44,7 +44,7 @@ const RegisterPage = () => {
 			return;
 		}
 		try {
-			const response = await fetch("http://localhost:8080/register", {
+			const response = await fetch(process.env.REACT_APP_BACKEND_HOST+"/register", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",

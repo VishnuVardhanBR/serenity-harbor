@@ -16,7 +16,7 @@ const AdminPage = () => {
     useEffect(() => {
         const fetchConsumers = async () => {
             try {
-                const response = await fetch('http://localhost:8080/fetch_consumers_with_admin', {
+                const response = await fetch(process.env.REACT_APP_BACKEND_HOST+'fetch_consumers_with_admin', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -49,7 +49,7 @@ const AdminPage = () => {
     const fetchSummaries = async (consumerUsername) => {
         setLoading(true);
         try {
-            const response = await fetch('http://localhost:8080/fetch_summaries', {
+            const response = await fetch(process.env.REACT_APP_BACKEND_HOST+'/fetch_summaries', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -77,7 +77,7 @@ const AdminPage = () => {
 
     const sendInvite = async () => {
         try {
-            const response = await fetch('http://localhost:8080/invite_user', {
+            const response = await fetch(process.env.REACT_APP_BACKEND_HOST+'/invite_user', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
