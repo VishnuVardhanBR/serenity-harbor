@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 const Section = () => {
     const navigate= useNavigate()
   return (
-    <div className="w-full bg-gray-200 flex justify-center items-center mt-[115px]">
+    <div className="w-full bg-gray-200 flex justify-center items-center mt-[115px] p-6">
       <div className="w-[60%] flex justify-center items-center gap-5">
         <div className="flex flex-col w-1/2 gap-2 items-center">
           <p className="text-2xl font-semibold leading-[2]">
