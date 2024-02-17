@@ -294,7 +294,13 @@ const ChatPage = () => {
 						onChange={(e) => setUserInput(e.target.value)}
 						placeholder="Type your message..."
 					/>
-					<button type="submit">Send</button>
+					<button
+						type="submit"
+						disabled={assistantResponseLoading}
+						style={assistantResponseLoading ? { backgroundColor: 'gray' } : null}
+					>
+						Send
+					</button>
 				</form>
 			</div>
 		</div>
