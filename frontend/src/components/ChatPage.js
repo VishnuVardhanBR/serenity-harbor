@@ -96,6 +96,7 @@ const ChatPage = () => {
 
 	const sendMessageToBackend = async (userInput, initialResponses) => {
 		setAssistantResponseLoading(true);
+		if(isMicEnabled) handleMicToggle();
 		try {
 			const response = await fetch(process.env.REACT_APP_BACKEND_HOST+"/fetch_response", {
 				method: "POST",
