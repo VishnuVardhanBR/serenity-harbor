@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ChatPage from "./components/ChatPage";
 import LoginPage from "./components/LoginPage";
-import HomePage from "./components/HomePage";
+import HomePage from "./components/HomePage/HomePage";
 import AdminPage from "./components/AdminPage";
 import LandingPage from "./components/LandingPage";
 import RegisterPage from "./components/RegisterPage";

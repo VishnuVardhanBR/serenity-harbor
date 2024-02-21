@@ -1,5 +1,5 @@
 import React from "react";
-import Logo from "../static/logo-text.png";
+import Logo from "../../static/logo-text.png";
 import { Button } from "@mantine/core";
 import { IoMdChatbubbles } from "react-icons/io";
 import { useNavigate } from "react-router-dom";

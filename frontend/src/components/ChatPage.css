@@ -119,7 +119,6 @@
 .helpline-button:hover {
     background-color: #5aaf7d;
 }
-
 .helpline-details {
     background-color: #d9ffe4;
     color: #333333;
@@ -131,15 +130,5 @@
     top: 100%;
     left: 0;
     z-index: 1;
-    visibility: hidden;
-    opacity: 0;
-    width: 350px; /* Adjust the width as needed */
-    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease, width 0.3s ease;
-    transform: translateY(-10px);
-}
-
-.helpline-button-container:hover .helpline-details {
-    visibility: visible;
-    opacity: 1;
-    transform: translateY(0);
+    width: 350px;
 }

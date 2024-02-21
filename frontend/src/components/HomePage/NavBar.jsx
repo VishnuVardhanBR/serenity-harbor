@@ -1,5 +1,5 @@
 import React from 'react'
-import Logo from "../static/logo-color-righttext.png";
+import Logo from "../../static/logo-color-righttext.png";
 import { Button } from "@mantine/core";
 import { useNavigate } from 'react-router-dom';
 const NavBar = () => {
