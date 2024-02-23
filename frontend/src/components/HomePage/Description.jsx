@@ -1,5 +1,5 @@
 import React from 'react'
-import Logo from "../static/logo-text.png";
+import Logo from '../../static/logo-text.png';
 
 const Description = () => {
     const description=["Breaks down barriers to mental health care, providing emotional  support 24/7, anytime and anywhere.", "Voice and Chat based assistant which can be used globally as it supports multiple languages and also gives a feel of human than an AI.", "A tool for therapists for enhancing the treatment by tracking progress of their patients and thereby immediately responding in case of emergencies."]

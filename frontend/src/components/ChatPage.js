@@ -210,8 +210,7 @@ const ChatPage = () => {
 				<div className="helpline-button-container">
 					<button
 						className="helpline-button"
-						onMouseOver={() => setShowHelpline(true)}
-						onMouseOut={() => setShowHelpline(false)}
+						onClick={() => setShowHelpline(!showHelpline)}
 					>
 						Helpline
 					</button>

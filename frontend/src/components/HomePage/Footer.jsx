@@ -1,5 +1,6 @@
 import React from 'react';
-import Logo from '../static/logo-text.png';
+import Logo from '../../static/logo-text.png';
+
 import { FaLinkedin, FaGithub, FaXTwitter} from 'react-icons/fa6';
 const Footer = () => {
   return (
