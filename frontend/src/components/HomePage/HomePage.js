@@ -7,17 +7,17 @@ import Features from "./Features";
 import Footer from "./Footer";
 import { leapfrog } from "ldrs";
 import Logo from "../../static/logo-text.png";
+import Howitworks from "./Howitworks";
+import Header from "./NewHeader";
 
 leapfrog.register();
 
 const HomePage = () => {
 	return (
 		<div className="w-full relative min-h-[100vh] flex flex-col items-center">
-			<NavBar />
-			<Section />
-			<Description />
-			<Features />
-			<Footer />
+		<Header />
+		<Howitworks />
+		<Footer />
 		</div>
 	);
 };
