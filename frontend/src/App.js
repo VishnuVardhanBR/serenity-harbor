@@ -51,7 +51,7 @@ export default function App() {
 	}
 
 	return (
-		<div>
+		<div className="h-screen">
 			<Routes>
 				<Route
 					path="/"

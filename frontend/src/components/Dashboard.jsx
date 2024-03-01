@@ -1,7 +1,7 @@
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import Logo from "../static/logo-color-righttext.png";
+import Logo from "../static/logo-cropped.png";
 
 const user = {
   name: 'Tom Cook',
@@ -46,7 +46,7 @@ export default function Dashboard() {
                   <div className="flex items-center">
                     <div className="flex-shrink-0">
                       <img
-                        className="h-8 w-8"
+                        className="h-8"
                         src={Logo}
                         alt="Serenity harbor"
                       />
