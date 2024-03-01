@@ -31,7 +31,7 @@ const LoginPage = () => {
 			const data = await response.json();
 			if (data.status === "User logged in successfully") {
 				localStorage.setItem("token", data.token);
-				navigate("/chat");
+				navigate("/dashboard");
 				window.location.reload();
 			}
 		} catch (error) {
