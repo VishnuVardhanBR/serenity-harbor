@@ -174,14 +174,6 @@ def handle_text_to_speech():
     except Exception as e:
         print(e)
         return jsonify({'error': str(e)}), 500
-
-#to be implemented: to show chats of user from a date
-# @app.route('/chat_history/<username>/<date>', methods=['GET'])
-# def get_chat_history_for_date_helper(username, date):
-#     try: 
-#         return get_chat_history_for_date(username, date)
-#     except Exception as e:
-#         return jsonify({'error': str(e)}), 500
     
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=8000)
