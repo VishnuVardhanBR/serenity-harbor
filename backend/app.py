@@ -34,6 +34,9 @@ def verify_jwt_token(token):
     except jwt.InvalidTokenError:
         return jsonify({"error": "Invalid token"}), 401
 
+@app.route('/', methods=['GET'])
+def check():
+    return("API is up and running!")
 
 @app.route('/verify_token', methods=['POST'])
 def verify_jwt_token_helper():
