@@ -12,6 +12,7 @@ on:
       - 'backend/**'
       - 'requirements.txt'
       - 'startup.txt'
+      - '.github/workflows/main_serenityharborapi.yml'
   workflow_dispatch:
 
 jobs:
