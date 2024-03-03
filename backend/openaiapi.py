@@ -4,9 +4,8 @@ from openai import OpenAI
 from dbutils import get_db_connection, get_user_details  # Import your database connection function
 import pymongo
 import datetime  
-load_dotenv(find_dotenv())
-
-client = OpenAI()
+load_dotenv()
+client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 
 # def validate_user_prompt(user_prompt: str):
 #     invalid_topics = ["suicide"]
