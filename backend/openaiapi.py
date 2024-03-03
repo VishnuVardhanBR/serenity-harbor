@@ -1,10 +1,10 @@
 import os
-from dotenv import load_dotenv
+from dotenv import load_dotenv, find_dotenv
 from openai import OpenAI
 from dbutils import get_db_connection, get_user_details  # Import your database connection function
 import pymongo
 import datetime  
-load_dotenv()
+load_dotenv(find_dotenv())
 
 client = OpenAI()
 
