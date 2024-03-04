@@ -58,7 +58,7 @@ const RegisterPage = () => {
 
 			const data = await response.json();
 			localStorage.setItem("token", data.token);
-			navigate("/home");
+			navigate("/dashboard");
 			window.location.reload();
 		} catch (error) {
 			console.error("Error:", error);

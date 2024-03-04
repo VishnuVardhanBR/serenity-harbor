@@ -144,8 +144,8 @@ def fetch_openai_response_admin(username, messages):
 from pathlib import Path
 def text_to_speech(text, speech_file_path):
     response = client.audio.speech.create(
-    model="tts-1",
-    voice="nova",
-    input=text,
+        model="tts-1",
+        voice="nova",
+        input=text,
     )
     response.stream_to_file(speech_file_path)

@@ -4,6 +4,8 @@ import os
 import jwt
 from flask import jsonify
 from datetime import datetime
+from dotenv import load_dotenv
+load_dotenv()
 
 mongo_uri = os.getenv("MONGO_URI")
 database_name = "serenityharbor"

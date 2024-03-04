@@ -92,10 +92,10 @@ const ChatPage = () => {
 		setLoading(false);
 	};
 
-	const handleLogout = async () => {
-		localStorage.removeItem("token");
-		window.location.reload();
-	};
+	// const handleLogout = async () => {
+	// 	localStorage.removeItem("token");
+	// 	window.location.reload();
+	// };
 
 	const sendMessageToBackend = async (userInput, initialResponses) => {
 		setAssistantResponseLoading(true);
@@ -255,9 +255,9 @@ const ChatPage = () => {
 				<button onClick={clearChat} className="btn mr-1">
 					Start New
 				</button>
-				<button onClick={handleLogout} className="btn">
+				{/* <button onClick={handleLogout} className="btn">
 					Logout
-				</button>
+				</button> */}
 				
 			</div>
 			<div className="message-container flex-1 overflow-auto">

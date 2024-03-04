@@ -2,7 +2,10 @@ import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import Logo from "../static/logo-cropped.png";
-
+const handleLogout = async () => {
+  localStorage.removeItem("token");
+  window.location.reload();
+};
 const user = {
   name: 'Tom Cook',
   email: 'tom@example.com',
@@ -19,7 +22,7 @@ const navigation = [
 const userNavigation = [
   { name: 'Your Profile', href: '#' },
   { name: 'Settings', href: '#' },
-  { name: 'Sign out', href: '#' },
+  { name: 'Logout', onClick: handleLogout },
 ]
 
 function classNames(...classes) {
@@ -106,6 +109,7 @@ export default function Dashboard() {
                                 {({ active }) => (
                                   <a
                                     href={item.href}
+                                    onClick={item.onClick}
                                     className={classNames(
                                       active ? 'bg-gray-100' : '',
                                       'block px-4 py-2 text-sm text-gray-700'
@@ -195,7 +199,59 @@ export default function Dashboard() {
           </div>
         </header>
         <main>
-          <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">Welcome to serenity harbor</div>
+          <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+          {/* Sample skeletions just to look good */}
+          <div className="grid grid-cols-3 gap-4">
+            <div className="flex flex-col gap-4 w-52">
+              <div className="flex gap-4 items-center">
+                <div className="skeleton w-16 h-16 rounded-full shrink-0"></div>
+                <div className="flex flex-col gap-4">
+                  <div className="skeleton h-4 w-20"></div>
+                  <div className="skeleton h-4 w-28"></div>
+                </div>
+              </div>
+              <div className="skeleton h-32 w-full"></div>
+              </div>
+                <div className="flex flex-col gap-4 w-52">
+                <div className="flex gap-4 items-center">
+                  <div className="skeleton w-16 h-16 rounded-full shrink-0"></div>
+                  <div className="flex flex-col gap-4">
+                    <div className="skeleton h-4 w-20"></div>
+                    <div className="skeleton h-4 w-28"></div>
+                  </div>
+                </div>
+                <div className="skeleton h-32 w-full"></div>
+              </div>
+              <div className="flex flex-col gap-4 w-52">
+                <div className="flex gap-4 items-center">
+                  <div className="skeleton w-16 h-16 rounded-full shrink-0"></div>
+                  <div className="flex flex-col gap-4">
+                    <div className="skeleton h-4 w-20"></div>
+                    <div className="skeleton h-4 w-28"></div>
+                  </div>
+                </div>
+                <div className="skeleton h-32 w-full"></div>
+              </div>
+                <div className="flex flex-col gap-4 w-52">
+                  <div className="skeleton h-32 w-full"></div>
+                  <div className="skeleton h-4 w-28"></div>
+                  <div className="skeleton h-4 w-full"></div>
+                  <div className="skeleton h-4 w-full"></div>
+                </div>
+                <div className="flex flex-col gap-4 w-52">
+                  <div className="skeleton h-32 w-full"></div>
+                  <div className="skeleton h-4 w-28"></div>
+                  <div className="skeleton h-4 w-full"></div>
+                  <div className="skeleton h-4 w-full"></div>
+                </div>
+                <div className="flex flex-col gap-4 w-52">
+                  <div className="skeleton h-32 w-full"></div>
+                  <div className="skeleton h-4 w-28"></div>
+                  <div className="skeleton h-4 w-full"></div>
+                  <div className="skeleton h-4 w-full"></div>
+                </div>
+              </div>
+            </div>
         </main>
       </div>
     </>
