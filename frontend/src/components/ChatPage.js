@@ -219,7 +219,7 @@ const ChatPage = () => {
 			{loading && <LoadingOverlay />}
 			<div className="header">
 			<button className="btn btn-circle mr-2" onClick={() => navigate("/dashboard")}>
-				<svg viewBox="0 0 1024 1024" class="icon" className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path fill="#000000" d="M224 480h640a32 32 0 110 64H224a32 32 0 010-64z"></path><path fill="#000000" d="M237.248 512l265.408 265.344a32 32 0 01-45.312 45.312l-288-288a32 32 0 010-45.312l288-288a32 32 0 1145.312 45.312L237.248 512z"></path></g></svg>
+				<svg viewBox="0 0 1024 1024" className="icon h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path fill="#000000" d="M224 480h640a32 32 0 110 64H224a32 32 0 010-64z"></path><path fill="#000000" d="M237.248 512l265.408 265.344a32 32 0 01-45.312 45.312l-288-288a32 32 0 010-45.312l288-288a32 32 0 1145.312 45.312L237.248 512z"></path></g></svg>
 			</button>
 				<div className="helpline-button-container">
 					<button
@@ -258,7 +258,6 @@ const ChatPage = () => {
 				{/* <button onClick={handleLogout} className="btn">
 					Logout
 				</button> */}
-				
 			</div>
 			<div className="message-container flex-1 overflow-auto">
 				{messages.length === 0 ? (

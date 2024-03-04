@@ -250,7 +250,12 @@ export default function Dashboard() {
                   <div className="skeleton h-4 w-full"></div>
                   <div className="skeleton h-4 w-full"></div>
                 </div>
+                <div className="skeleton w-full h-64"></div>
+                <div className="skeleton w-full h-64"></div>
+                <div className="skeleton w-full h-64"></div>
+                
               </div>
+              
             </div>
         </main>
       </div>
