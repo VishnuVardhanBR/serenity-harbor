@@ -241,7 +241,7 @@ const ChatPage = () => {
 							<br />
 							AASRA: +91-9820466746
 							<br />
-							Sanjivani Society: +91-11-24644902
+							Sanjivini Society: +91-11-24644902
 							<br />
 							Vandrevala Foundation: +91-9999 666 555
 							<br />
